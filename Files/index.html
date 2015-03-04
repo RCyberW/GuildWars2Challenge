@@ -1,0 +1,93 @@
+﻿<!DOCTYPE html>
+<html>
+    <head> 
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Demo app</title>
+		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+        <script>
+			
+			var pricev2JSON = "https://api.guildwars2.com/v2/commerce/prices";
+			var itemv2JSON = "https://api.guildwars2.com/v2/items";
+		
+            function listItemInfo() {
+				var itemsJSON = "https://api.guildwars2.com/v1/items.json";
+				var itemList;
+				$.getJSON( itemsJSON, function( data ) {
+					itemList = data;
+				});
+			}
+			
+			function getItemPrices() {
+				var itemIds = [19684, 13328, 2279];
+				
+				var priceDetail;
+				var itemDetail;
+				var i;
+				var priceIds;
+				
+				// Create starting query
+				if (itemIds.length > 1) {
+					priceIds = "?ids=";
+					for(i = 0; i < itemIds.length; i++) {
+						priceIds += itemIds[i] + ","
+					}
+				} else {
+					priceIds = "/" + itemIds[0];
+				}
+				
+				$.getJSON( pricev2JSON + priceIds, function( data ) {
+					priceDetail = data;
+					$.getJSON( pricev2JSON  + priceIds, function( data ) {
+						itemDetail = data;
+						for(i = 0; i < itemDetail.length; i++) {
+							var itemId = priceDetail[i].id;
+							
+							if ($("#" + itemId + "_price").length == 0) {
+								// It doesn't exist
+								$('#pricewatch tr:last').after('<tr><td id=' + itemId + '_name>' + itemDetail[i].name + '</td><td id=' + itemId + '_price>' + priceDetail[i].buys.unit_price + '</td></tr>');
+							} else {
+								// It exists
+								$("#" + itemId + "_price").value = priceDetail[i].buys.unit_price;
+							}
+						}
+					});
+				});
+			}
+			// OverWolf Window functions
+			function dragResize(edge){
+                overwolf.windows.getCurrentWindow(function(result){
+                    if (result.status=="success"){
+                        overwolf.windows.dragResize(result.window.id, edge);
+                    }
+                });
+            };
+            function dragMove(){
+                overwolf.windows.getCurrentWindow(function(result){
+                    if (result.status=="success"){
+                        overwolf.windows.dragMove(result.window.id);
+                    }
+                });
+            };
+            function closeWindow(){
+                overwolf.windows.getCurrentWindow(function(result){
+                    if (result.status=="success"){
+                        overwolf.windows.close(result.window.id);
+                    }
+                });
+            };
+        </script>
+    </head>
+
+    <body>
+        <div style="width:20px; height:20px; bottom:0; right:0; position:absolute;" onmousedown="dragResize('BottomRight');"></div>
+        <div id="content" onmousedown="dragMove();" style="color:white; background-color:blue;">
+            <table id="pricewatch">
+				<tr>
+					<th style="text-align: left;">Item</th>
+					<th style="text-align: left;">Price</th>
+				</tr>
+			</table>
+            <button id="close" onclick="getItemPrices();">Update</button>
+        </div>
+    </body>
+</html>
