@@ -6,18 +6,27 @@
 		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
         <script>
 			
+			// CONSTANTS
+			var MILLISECONDS = 1000;
+			
+			// GUILD WARS 2 JSON CALLS
 			var pricev2JSON = "https://api.guildwars2.com/v2/commerce/prices";
 			var itemv2JSON = "https://api.guildwars2.com/v2/items";
+			var itemsv1JSON = "https://api.guildwars2.com/v1/items.json";
+			
+			// GLOBAL VARS
+			var count = 0;
 		
             function listItemInfo() {
-				var itemsJSON = "https://api.guildwars2.com/v1/items.json";
 				var itemList;
-				$.getJSON( itemsJSON, function( data ) {
+				$.getJSON( itemv2JSON, function( data ) {
 					itemList = data;
+					
 				});
 			}
 			
 			function getItemPrices() {
+				count++;
 				var itemIds = [19684, 13328, 2279];
 				
 				var priceDetail;
@@ -35,24 +44,34 @@
 					priceIds = "/" + itemIds[0];
 				}
 				
-				$.getJSON( pricev2JSON + priceIds, function( data ) {
-					priceDetail = data;
-					$.getJSON( pricev2JSON  + priceIds, function( data ) {
-						itemDetail = data;
-						for(i = 0; i < itemDetail.length; i++) {
+				$("#debugMode").value = count;
+				
+				$.getJSON( pricev2JSON + priceIds, function( prices ) {
+					priceDetail = prices;
+					$.getJSON( itemv2JSON  + priceIds, function( items ) {
+						itemDetail = items;
+						for (i = 0; i < itemDetail.length; i++) {
 							var itemId = priceDetail[i].id;
 							
 							if ($("#" + itemId + "_price").length == 0) {
-								// It doesn't exist
+								// It doesn't exist, write the values
 								$('#pricewatch tr:last').after('<tr><td id=' + itemId + '_name>' + itemDetail[i].name + '</td><td id=' + itemId + '_price>' + priceDetail[i].buys.unit_price + '</td></tr>');
 							} else {
-								// It exists
+								// It exists, update values
+								$("#" + itemId + "_name").value = itemDetail[i].name;
 								$("#" + itemId + "_price").value = priceDetail[i].buys.unit_price;
 							}
 						}
 					});
 				});
 			}
+			
+			var myVar;
+			function myFunction() {
+				getItemPrices();
+				myVar = setInterval(getItemPrices, 60 * MILLISECONDS);
+			}
+			
 			// OverWolf Window functions
 			function dragResize(edge){
                 overwolf.windows.getCurrentWindow(function(result){
@@ -79,6 +98,7 @@
     </head>
 
     <body>
+		<div id="debugMode">0</div>
         <div style="width:20px; height:20px; bottom:0; right:0; position:absolute;" onmousedown="dragResize('BottomRight');"></div>
         <div id="content" onmousedown="dragMove();" style="color:white; background-color:blue;">
             <table id="pricewatch">
@@ -87,7 +107,7 @@
 					<th style="text-align: left;">Price</th>
 				</tr>
 			</table>
-            <button id="close" onclick="getItemPrices();">Update</button>
+            <button id="close" onclick="myFunction();">Update</button>
         </div>
     </body>
 </html>
