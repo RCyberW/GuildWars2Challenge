@@ -1,10 +1,60 @@
 // The module namespace... you can change this to something more fitting
 var GW2App = GW2App || {}; 
 GW2App = {
-	pricev2JSON: "https://api.guildwars2.com/v2/commerce/prices/",
+	// CONSTANTS
+	MILLISECONDS = 1000,
+	
+	pricev2JSON: "https://api.guildwars2.com/v2/commerce/prices",
 	itemv2JSON: "https://api.guildwars2.com/v2/items",
-	itemDictionary: {}
+	itemDictionary: {},
+	// We would need to store a map of item that the user want an update for to a price that they define
+	watchList: {},
+	// Store the result of each auto update for future use
+	listOfUpdates: {},
+	// Create a list of user specified alarm
+	listOfAlarms: {},
+	// Create a list of memo pages that user can edit/view
+	listOfMemos: {}
 };
+
+// This should be robust enough for us to specify which method that we want to auto update per set interval
+GW2App.autoRefresh = function(methodToUpdate, intervalPerUpdate, param1, param2....) {
+	// Create an auto refresh for each method to update the price and the user view
+	var myVar = setInterval(methodToUpdate, intervalPerUpdate * MILLISECONDS, /*How are we doing this?*/);
+}
+
+// - specify the item that the user want to keep track of
+// - the amount to check for is greater than or less than that appears in the TP
+// - isGreaterThan the comparison uses >= or <=
+GW2App.createWatchItem = function(itemToWatchOutFor, amount, isGreaterThan) {
+	// Internally when we store this to the map, we can store the itemID for ease of access later
+}
+
+GW2App.createAlert = function() {
+	// Create an alert when one of the storedItems condition is met
+	// This should go hand in hand with the autoRefresh
+	// It should be a non-intrusive notification (i.e. flashing notification)
+	// Something like the chat message, where the tab flashes
+}
+
+// - intervalAmount is how many minutes till countdown
+// - nextTime is the absolute local time until the alarm
+// - let user name the alarm
+GW2App.createAlarm = function(intervalAmount, nextTime, alarmLabel) {
+	// We can make alarm a subset of alert
+	// It is meant for users to make an alarm for world boss or anything time based
+	// They can set the alarm base on interval or time
+	// I was imagining how the way the alarm/stopwatch work on the Android
+}
+
+// - memoID is a specific ID to refer back to
+// - message is the content of the memo
+// - type can be ranged specified by user, we can color coordinate them
+GW2App.createMemo = function(memoID, message, type) {
+	// A memo pad for user
+	// We can leave up to the user to decide to categorize the memo (up for discussion)
+	// Memo should be able to be tied in with alarm. (i.e. user creates memo: "Teq at 4PM", we should be able to create an alarm entry for Teq set for 4PM)
+}
 
 // returns the prices and info for all itemIds
 // - itemIds can be a single id or array of ids
