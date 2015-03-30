@@ -3,8 +3,25 @@
     <head> 
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <title>Demo app</title>
-		<script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+		<link type="text/css" rel="stylesheet" href="css/style.css">
+		<script src="js/jquery-1.11.2.min.js"></script>
         <script>
+			//DEBUGGING CODE
+			var debugmode = true;
+			
+			if(debugmode) {
+				$(window).on('keypress', function(e) {
+					if(e.keyCode == 100) {
+						$('#debug-menu').slideToggle(300);
+						$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
+					}
+				});
+			}
+			
+			function debug(string) {
+				$('#debug-menu').append(string + '<br>');
+				$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
+			}
 			
 			// CONSTANTS
 			var MILLISECONDS = 1000;
@@ -98,16 +115,19 @@
     </head>
 
     <body>
-		<div id="debugMode">0</div>
-        <div style="width:20px; height:20px; bottom:0; right:0; position:absolute;" onmousedown="dragResize('BottomRight');"></div>
-        <div id="content" onmousedown="dragMove();" style="color:white; background-color:blue;">
-            <table id="pricewatch">
+		<div id="resize-bar" onmousedown="dragResize('BottomRight');">resize</div>
+		<div id="top-bar" onmousedown="dragMove();">
+			<div id="close-button" onclick="closeWindow()">X</div>
+		</div>
+		<div id="debug-menu">--Debug Menu--<br><br></div>
+		<div id="main-content">
+			<table id="pricewatch">
 				<tr>
 					<th style="text-align: left;">Item</th>
 					<th style="text-align: left;">Price</th>
 				</tr>
 			</table>
-            <button id="close" onclick="myFunction();">Update</button>
-        </div>
+			<button onclick="myFunction();">Update</button>
+		</div>
     </body>
 </html>

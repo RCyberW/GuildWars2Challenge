@@ -3,7 +3,7 @@
    License: none (public domain)
 */
 
-//THIS IS A BASIC CSS RESET, JUST STANDARDIZES SOME STUFF.
+/*THIS IS A BASIC CSS RESET, JUST STANDARDIZES SOME STUFF.*/
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -59,83 +59,43 @@ html, body {
 	height: 100%;
 	width: 100%;
 	background: transparent;
+	font-size:16px;
+	background:rgba(252, 252, 215, 0.7);
 }
 
-.resizeGrip {
-	background: lightblue;
-	border: 1px solid blue;
-	position: absolute;
+#top-bar {
+	cursor:pointer;
+	width:100%;
+	height:20px;
+	background-color:gray;
 }
 
-#content {
-	position: absolute;
-	top:10px;
-	bottom: 10px;
-	left: 10px;
-	right: 10px;
-	padding: 10px;
+#close-button {
+	position:absolute;
+	top:0;
+	right:0;
+	height:16px;
+	padding:2px;
+	text-align:center;
+	background-color:#daa;
 }
 
-#resizeGripTop {
-	height: 10px;
-	top: 0;
-	left: 10px;
-	right: 10px;
-	cursor: ns-resize;
+#resize-bar {
+	border:1px solid black;
+	border-radius:10px 0 0 0;
+	background-color: #887;
+	padding:5px;
+	color:white;
+	position:absolute;
+	bottom:0;
+	right:0;
 }
 
-#resizeGripBottom {
-	height: 10px;
-	bottom: 0;
-	left: 10px;
-	right: 10px;
-	cursor: ns-resize;
-}
-
-#resizeGripLeft {
-	width: 10px;
-	left: 0;
-	top: 10px;
-	bottom: 10px;
-	cursor: ew-resize;
-}
-
-#resizeGripRight {
-	width: 10px;
-	right: 0;
-	top: 10px;
-	bottom: 10px;
-	cursor: ew-resize;
-}
-
-#resizeGripTopLeft {
-	width: 10px;
-	height: 10px;
-	top: 0;
-	left: 0;
-	cursor: nwse-resize;
-}
-
-#resizeGripBottomLeft {
-	width: 10px;
-	height: 10px;
-	bottom: 0;
-	left: 0;
-	cursor: nesw-resize;
-}
-
-#resizeGripTopRight {
-	width: 10px;
-	height: 10px;
-	top: 0;
-	right: 0;
-	cursor: nesw-resize;
-}
-
-#resizeGripBottomRight {
-	width: 10px;
-	height: 10px;
-	bottom: 0;
-	right: 0;
-	cursor: nwse-resize;
+#debug-menu {
+	display:none;
+	background-color:#00A;
+	width:100%;
+	height:150px;
+	color:white;
+	overflow:auto;
 }
