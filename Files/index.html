@@ -18,6 +18,10 @@
 				});
 			}
 			
+			$(window).resize(function() {
+				debug($(this).width() + ' - ' + $(document).width());
+			});
+			
 			function debug(string) {
 				$('#debug-menu').append(string + '<br>');
 				$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
@@ -61,7 +65,7 @@
 					priceIds = "/" + itemIds[0];
 				}
 				
-				$("#debugMode").value = count;
+				debug(count);
 				
 				$.getJSON( pricev2JSON + priceIds, function( prices ) {
 					priceDetail = prices;
