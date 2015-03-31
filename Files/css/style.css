@@ -103,7 +103,7 @@ html, body {
 	float:left;
 	width:200px;
 	height:100%;
-	background:linear-gradient(to bottom right, rgba(0, 0, 0, .5), rgba(0, 0, 0, 0));
+	background:linear-gradient(to bottom right, rgba(53, 24, 14, 0.8), rgba(53, 24, 14, 0.1));
 	-webkit-user-select: none; /* Chrome/Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+ */
@@ -130,7 +130,8 @@ html, body {
 #main-content {
 	float:right;
 	width: calc(100% - 255px);
-	height:100%;
-	background: linear-gradient(to right, rgba(255, 255, 255, .95), rgba(255, 255, 255, .8));
-	padding:25px;
+	height:calc(100% - 85px);
+	background: rgba(255, 255, 255, .9);
+	padding:22px;
+	border: 3px solid rgb(53, 24, 14);
 }
