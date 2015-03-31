@@ -7,16 +7,18 @@
 		<script src="js/jquery-1.11.2.min.js"></script>
         <script>			
 			$(document).ready(function() {
-				$('#sidebar li').each(function() {
+				$('#tabbar li').each(function() {
 					$('#main-content').append('<div id="' + $(this).html().replace(/ /g, '_') + '-page" class="content-page"></div>');
-					$('#' + $(this).html().replace(/ /g, '_') + '-page').load($(this).html() + '.html');
+					$('#' + $(this).html().replace(/ /g, '_') + '-page').load($(this).html().replace(/ /g, '').toLowerCase() + '.html');
 					$(this).off('click').on('click', function() {
+						$('.active-tab').removeClass('active-tab');
 						$('.content-page').hide();
+						$(this).addClass('active-tab');
 						$('#' + $(this).html().replace(/ /g, '_') + '-page').show();
 					});
 				});
 				
-				$('#sidebar li:first').trigger('click');
+				$('#tabbar li:first').trigger('click');
 			});
 			
 			//DEBUGGING CODE
@@ -35,7 +37,30 @@
 				$('#debug-menu').append(string + '<br>');
 				$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
 			}
-        </script>
+			
+			// OverWolf Window functions
+			function dragResize(edge){
+				overwolf.windows.getCurrentWindow(function(result){
+					if (result.status=="success"){
+						overwolf.windows.dragResize(result.window.id, edge);
+					}
+				});
+			};
+			function dragMove(){
+				overwolf.windows.getCurrentWindow(function(result){
+					if (result.status=="success"){
+						overwolf.windows.dragMove(result.window.id);
+					}
+				});
+			};
+			function closeWindow(){
+				overwolf.windows.getCurrentWindow(function(result){
+					if (result.status=="success"){
+						overwolf.windows.close(result.window.id);
+					}
+				});
+			};       
+		</script>
     </head>
 
     <body>
@@ -43,10 +68,11 @@
 			<div id="close-button" onclick="closeWindow()">X</div>
 		</div>
 		<div id="debug-menu">--Debug Menu--<br><br></div>
-		<div id="sidebar">
+		<div id="tabbar">
 			<ul>
-				<li>Home</li>
-				<li>Settings</li>
+				<li>Item Search</li>
+				<li>Alarm</li>
+				<li>Memo</li>
 			</ul>
 		</div>
 		<div id="main-content">
