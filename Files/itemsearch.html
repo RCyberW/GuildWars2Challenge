@@ -1,84 +1,48 @@
-<html>
-<head>
-	<style type="text/css">
-	#statusMessage {
-		margin-top:10px;
-	}
-	</style>
-	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
-	<script src="js/gw2app.js"></script>
-	<script>
-	$(document).ready(function() {
-		// click the search button
-		$("#searchButton").click(function() {
-			$("#statusMessage").empty();
-			var itemIds = $("#itemIdsField").val();
-			GW2App.getItemInfoAndPrices(itemIds, function(response) {
-				if (!response.success) { // failed response
-					$("#statusMessage").html("Error from GW2 API: " + response.errorMsg);
-				} else { // reload price table
-					$("#pricesTable tbody").empty();
-					response.data.forEach(function(item) {
-						$("#pricesTable tbody").append(
-								"<tr>" + 
-								"<td>" + item.id + "</td>" + 
-								'<td><img src="' + item.icon + '"/></td>' + 
-								"<td>" + item.name + "</td>" + 
-								"<td>" + item.description + "</td>" + 
-								"<td>" + item.rarity + "</td>" + 
-								"<td>" + item.type + "</td>" + 
-								"<td>" + item.price.buys.unit_price + "</td>" + 
-								"<td>" + item.price.sells.unit_price + "</td>" + 
-								"</tr>");
-					
-					});
-				}
-			});
-		});
-	});
-	</script>
-</head>
-<body>
-	<table id="search-results">
+<table id="search-results">
+	<thead>
 		<tr>
 			<td width="95%">
-				<input type="text" id="itemIdsField" placeholder="Item..." onkeydown="if(event.keyCode == 13) { itemSearch(); };" autofocus>
+				<input type="text" id="itemIdsField" placeholder="Item..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
 			</td>
 			<td>
-				<button id="searchButton" onclick="itemSearch();">Search</button>
+				<button id="searchButton">Search</button>
 			</td>
 		</tr>
-	</table>
-	<div id="add-new-entry">Add new Entry</div>
-	<table id="saved-items">
-		<tr>
-			<td>Thumb Icon</td>
-			<td>Item name</td>
-			<td>Price 1</td>
-			<td width="10px">></td>
-			<td>Price 2</td>
-			<td width="10px">X</td>
-		</tr>
-	</table>
-	
-	<br><br><br>
-	<br><br><br>
-	<br><br><br>
-	<div id="statusMessage"></div>
-	<table id="pricesTable">
-		<thead>
-			<tr>	
-				<td>Id</td>
-				<td>Icon</td>
-				<td>Name</td>
-				<td>Description</td>
-				<td>Rarity</td>
-				<td>Type</td>
-				<td>Buy Price</td>
-				<td>Sell Price</td>
-			</tr>
-		</thead>
-		<tbody></tbody>
-	</table>
-</body>
-</html>
+	</thead>
+	<tbody>
+	</tbody>
+</table>
+<div id="add-new-entry" onclick="addNewAlarm()">Add new Entry</div>
+<table id="saved-items">
+	<tr>
+		<td>Id</td>
+		<td>Icon</td>
+		<td>Name</td>
+		<td>Type</td>
+		<td>Buy Price</td>
+		<td>Sell Price</td>
+	</tr>
+</table>
+<script src="js/gw2app.js"></script>
+<script>
+$(document).ready(function() {
+	// click the search button
+	$("#searchButton").click(function() {
+		var itemIds = $("#itemIdsField").val();
+		GW2App.getItemInfoAndPrices(itemIds, function(response) {
+			if (!response.success) { // failed response
+				debug("Error from GW2 API: " + response.errorMsg);
+			} else { // reload price table
+				$("#search-results tbody").empty();
+				response.data.forEach(function(item) {
+					$("#search-results tbody").append(
+							"<tr>" + 
+							"<td>" + item.name + "</td>" + 
+							"<td>Add</td>" + 
+							"</tr>");
+				});
+			}
+		});
+	});
+});
+</script>
