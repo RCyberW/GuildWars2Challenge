@@ -3,9 +3,9 @@
 	"type":"WebApp",
 	"meta":{
 		"name":"Demo App",
-		"version":"1.0.0",
+		"version":"1.1.1",
 		"minimum-overwolf-version":"0.77.10",
-		"author":"Developer Name",
+		"author":"Frank Chen, Douglas Choi, Ignatius Wong",
 		"icon":"IconMouseOver.png",
 		"icon_gray":"IconMouseNormal.png",
 		"description":"Demo App"
@@ -16,17 +16,8 @@
 			"MainWindow":{
 				"file":"Files/index.html",
 				"transparent":true,
-				"resizable":true,
-				"size":{"width":800, "height":600},
-				"min_size":{"width":200, "height":200},
-				"max_size":{"width":1920, "height":1080}
-			},
-			"SubWindow":{
-				"file":"Files/subwindow.html",
-				"transparent":true,
 				"resizable":false,
-				"size":{"width":400, "height":300},
-				"in_game_only":true
+				"size":{"width":700, "height":750}
 			}
 		}
 	}

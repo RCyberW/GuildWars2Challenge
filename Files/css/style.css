@@ -105,7 +105,7 @@ td {
 .content-page {
 	position:absolute;
 	display:none;
-	width:90%;
+	width:94%;
 	height:91%;
 	overflow:auto;
 }
@@ -163,11 +163,14 @@ td {
 #top-bar ul li {
 	display:inline-block;
 	padding:10px 15px;
-	width: 120px;
+	width:18%;
 	margin-top:10px;
 	background: linear-gradient(to top, rgba(200, 99, 45, 1), rgba(255, 255, 255, .5));
 	color:black;
 	cursor:pointer;
+	overflow:hidden;
+	text-overflow:ellipsis;
+	white-space: nowrap;
 	border-radius:5px 5px 0 0;
 }
 
@@ -231,17 +234,16 @@ td {
 	ALARM PAGE
 =====================*/
 #local-time, #server-time {
-	display:inline-block;
 	width: 35%;
 	height:50px;
 	border:2px solid rgba(152, 66, 29, 1);
 	padding:10px;
 	background-color:rgba(255, 255, 255, .5);
-	margin:10px 30px 30px;
+	margin:10px 20px 40px 20px;
 }
 
-#local-time { border-radius: 10px 0 10px 0; }
-#server-time { border-radius: 0 10px 0 10px; }
+#local-time { border-radius: 10px 0 10px 0; float:left; }
+#server-time { border-radius: 0 10px 0 10px; float:right; }
 
 #local-time h2, #server-time h2{
 	text-decoration:underline;
