@@ -130,6 +130,16 @@ GW2App = {
 		this.listOfMemos.push(new Memo(memoID,message,type));
 	},
 
+	getItemIDByName : function(itemName, callback) {
+		var myUrl = "http://www.gw2spidy.com/api/v0.9/json/item-search/" + itemName + "/1";
+		var self = GW2App;
+		
+		$.getJSON(myUrl, function(itemInfos) {
+			var itemID = itemInfos.results[0].data_id;
+			self.getItemPrices(itemID, callback);
+		});
+	},
+	
 	// returns info and prices from the GW2 API for specified itemIds
 	getItemInfoAndPrices : function(itemIds, callback) {
 		var self = GW2App;
