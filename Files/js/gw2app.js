@@ -130,13 +130,15 @@ GW2App = {
 		this.listOfMemos.push(new Memo(memoID,message,type));
 	},
 
+	// Allow the user to search items by name instead of using item ID.
+	// This will take the user input and translate that into item ID for backend processing
 	getItemIDByName : function(itemName, callback) {
 		var myUrl = "http://www.gw2spidy.com/api/v0.9/json/item-search/" + itemName + "/1";
 		var self = GW2App;
 		
 		$.getJSON(myUrl, function(itemInfos) {
 			var itemID = itemInfos.results[0].data_id;
-			self.getItemPrices(itemID, callback);
+			self.getItemInfoAndPrices(itemID, callback);
 		});
 	},
 	
