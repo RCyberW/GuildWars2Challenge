@@ -7,9 +7,12 @@
 		<script src="js/jquery-1.11.2.min.js"></script>
         <script>			
 			$(document).ready(function() {
-				$('#tabbar li').each(function() {
+				$('#top-bar li').each(function() {
 					$('#main-content').append('<div id="' + $(this).html().replace(/ /g, '_') + '-page" class="content-page"></div>');
 					$('#' + $(this).html().replace(/ /g, '_') + '-page').load($(this).html().replace(/ /g, '').toLowerCase() + '.html');
+					$(this).off('mousedown').on('mousedown', function(event) {
+						event.stopPropagation();
+					});
 					$(this).off('click').on('click', function() {
 						$('.active-tab').removeClass('active-tab');
 						$('.content-page').hide();
@@ -18,7 +21,7 @@
 					});
 				});
 				
-				$('#tabbar li:first').trigger('click');
+				$('#top-bar li:first').trigger('click');
 			});
 			
 			//DEBUGGING CODE
@@ -32,7 +35,14 @@
 					}
 				});
 			}
-						
+			
+			function changeOpacity() {
+				if($('html').css('opacity') == 1)
+					$('html').css('opacity', .4);
+				else
+					$('html').css('opacity', 1);
+			}
+			
 			function debug(string) {
 				$('#debug-menu').append(string + '<br>');
 				$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
@@ -65,16 +75,15 @@
 
     <body>
 		<div id="top-bar" onmousedown="dragMove();">
-			<div id="close-button" onclick="closeWindow()">X</div>
-		</div>
-		<div id="debug-menu">--Debug Menu--<br><br></div>
-		<div id="tabbar">
 			<ul>
 				<li>Item Search</li>
 				<li>Alarm</li>
 				<li>Memo</li>
 			</ul>
+			<div input id="opacity-control" onmousedown="event.stopPropagation()" onclick="changeOpacity()">T</div>
+			<div id="close-button" onmousedown="event.stopPropagation()" onclick="closeWindow()">X</div>
 		</div>
+		<div id="debug-menu">--Debug Menu--<br><br></div>
 		<div id="main-content">
 		</div>
     </body>

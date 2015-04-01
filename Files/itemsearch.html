@@ -4,18 +4,6 @@
 	#statusMessage {
 		margin-top:10px;
 	}
-	#pricesTable {
-		border-collapse:collapse;
-		margin-top:10px;
-		width: 50%;
-	}
-	#pricesTable thead{
-		font-weight:bold;
-	}
-	#pricesTable td {
-		border:1px solid #CCC;
-		padding:3px;
-	}
 	</style>
 	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 	<script src="js/gw2app.js"></script>
@@ -51,9 +39,31 @@
 	</script>
 </head>
 <body>
-	<label>Find by item ids: </label>
-	<input type="text" id="itemIdsField" value="19684,13328,2279">
-	<button id="searchButton">Search</button>
+	<table id="search-results">
+		<tr>
+			<td width="95%">
+				<input type="text" id="itemIdsField" placeholder="Item..." onkeydown="if(event.keyCode == 13) { itemSearch(); };" autofocus>
+			</td>
+			<td>
+				<button id="searchButton" onclick="itemSearch();">Search</button>
+			</td>
+		</tr>
+	</table>
+	<div id="add-new-entry">Add new Entry</div>
+	<table id="saved-items">
+		<tr>
+			<td>Thumb Icon</td>
+			<td>Item name</td>
+			<td>Price 1</td>
+			<td width="10px">></td>
+			<td>Price 2</td>
+			<td width="10px">X</td>
+		</tr>
+	</table>
+	
+	<br><br><br>
+	<br><br><br>
+	<br><br><br>
 	<div id="statusMessage"></div>
 	<table id="pricesTable">
 		<thead>
