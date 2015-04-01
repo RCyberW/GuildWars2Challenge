@@ -13,7 +13,7 @@
 		$("#searchButton").click(function() {
 			$("#statusMessage").empty();
 			var itemIds = $("#itemIdsField").val();
-			GW2App.getItemPrices(itemIds, function(response) {
+			GW2App.getItemInfoAndPrices(itemIds, function(response) {
 				if (!response.success) { // failed response
 					$("#statusMessage").html("Error from GW2 API: " + response.errorMsg);
 				} else { // reload price table
