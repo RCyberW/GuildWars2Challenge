@@ -54,13 +54,19 @@ table {
 	OVERALL
 =====================*/
 
+@font-face {
+	font-family:Cronos;
+	src: url(CronosPro-Regular.otf);
+}
+
 html, body {
 	overflow: hidden;
 	height: 100%;
 	width: 100%;
 	background: transparent;
-	font-family: Arial;
-	font-size:2vw;
+	font-family: Cronos;
+	font-size:2.3vw;
+	letter-spacing: 1px;
 	color:black;
 }
 
@@ -167,7 +173,7 @@ tbody td {
 
 #top-bar ul li {
 	display:inline-block;
-	padding:1.5vw 2vw .5vw 2vw;
+	padding:1.25vw 2vw .75vw 2vw;
 	width:15vw;
 	background: linear-gradient(to top, rgb(100, 44, 20), rgb(120, 60, 25));
 	color:black;
@@ -182,7 +188,7 @@ tbody td {
 .active-tab {
 	background: linear-gradient(to top, rgb(47, 20, 9), rgb(100, 44, 20)) !important;
 	color:#EEE !important;
-	font-size:2.5vw;
+	font-size:2.8vw;
 	font-weight:normal !important;
 }
 
@@ -200,7 +206,7 @@ tbody td {
 	font-weight:bold;
 }
 
-#opacity-control { right:7vw; font-size:1vw; }
+#opacity-control { right:7vw; font-size:1.2vw; }
 
 #close-button:hover, #opacity-control:hover {
 	background-color:rgb(100, 44, 20);
@@ -237,15 +243,16 @@ tbody td {
 }
 
 #add-new-entry {
-	width:50vw;
-	border-radius:10px;
-	padding:10px;
+	width:35vw;
+	border-radius:1.2vw;
+	padding:2vw;
 	margin:0 auto 5px auto;
 	display:inline-block;
-	color:#EEE;
-	background: linear-gradient(to bottom, rgb(100, 44, 20), rgb(80, 36, 15), rgb(100, 44, 20));
+	color:#DDD;
+	background: linear-gradient(to bottom, rgb(100, 44, 20), rgb(80, 33, 10) 70%, rgb(100, 44, 20));
+	border:2px solid #AAA;
 	cursor:pointer;
-	box-shadow:0 0 2px black;
+	box-shadow:0 0 3px black;
 	-webkit-user-select: none; /* Chrome/Safari */        
 	-moz-user-select: none; /* Firefox */
 	-ms-user-select: none; /* IE10+ */
@@ -255,7 +262,9 @@ tbody td {
 	user-select: none;
 }
 
-#add-new-entry:active { background: linear-gradient(to bottom, rgb(70, 31, 13), rgb(50, 25, 8), rgb(70, 31, 13));}
+#add-new-entry:active {
+	background: linear-gradient(to bottom, rgb(70, 31, 13), rgb(55, 25, 8) 70%, rgb(70, 31, 13));
+}
 
 
 /*=====================
@@ -275,5 +284,5 @@ tbody td {
 
 #local-time h2, #server-time h2{
 	text-decoration:underline;
-	font-size:20px;
+	font-size:25px;
 }
