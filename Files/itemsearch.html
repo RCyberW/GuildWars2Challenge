@@ -1,18 +1,12 @@
-<table id="search-results">
-	<thead>
-		<tr>
-			<td width="95%">
-				<input type="text" id="itemIdsField" placeholder="Item..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
-			</td>
-			<td>
-				<button id="searchButton">Search</button>
-			</td>
-		</tr>
-	</thead>
-	<tbody>
-	</tbody>
-</table>
-<div id="add-new-entry" onclick="addNewAlarm()">Add new Entry</div>
+<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
+<button id="searchButton">Search</button>
+<div id="search-results">
+	<table>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+<div id="add-new-entry">Add new Entry</div>
 <table id="saved-items">
 	<tr>
 		<td>Id</td>
@@ -23,9 +17,9 @@
 		<td>Sell Price</td>
 	</tr>
 </table>
-<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script src="js/gw2app.js"></script>
 <script>
+
 $(document).ready(function() {
 	// click the search button
 	$("#searchButton").click(function() {
