@@ -1,12 +1,28 @@
-<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
-<button id="searchButton">Search</button>
-<div id="search-results">
-	<table>
-		<tbody>
-		</tbody>
-	</table>
+<div id="search-window">
+	<div class="close-button" onclick="closeItemSearchMenu()">X</div>
+	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
+	<button id="searchButton">Search</button>
+	<div id="search-results">
+		<table>
+			<tbody>
+				<tr><td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+				<tr><td>hi</td><td>add</td></tr>
+			</tbody>
+		</table>
+	</div>
 </div>
-<div id="add-new-entry">Add new Entry</div>
+<br>
+<div id="add-new-item" class="add-new">Add new Item</div>
+<br><br>
 <table id="saved-items">
 	<tr>
 		<td>Id</td>
@@ -20,24 +36,32 @@
 <script src="js/gw2app.js"></script>
 <script>
 
-$(document).ready(function() {
-	// click the search button
-	$("#searchButton").click(function() {
-		var itemIds = $("#itemIdsField").val();
-		GW2App.getItemIDByName(itemIds, function(response) {
-			if (!response.success) { // failed response
-				debug("Error from GW2 API: " + response.errorMsg);
-			} else { // reload price table
-				$("#search-results tbody").empty();
-				response.data.forEach(function(item) {
-					$("#search-results tbody").append(
-							"<tr>" + 
-							"<td>" + item.name + "</td>" + 
-							"<td>Add</td>" + 
-							"</tr>");
-				});
-			}
-		});
+// click the search button
+$("#searchButton").click(function() {
+	var itemIds = $("#itemIdsField").val();
+	GW2App.getItemIDByName(itemIds, function(response) {
+		if (!response.success) { // failed response
+			debug("Error from GW2 API: " + response.errorMsg);
+		} else { // reload price table
+			$("#search-results tbody").empty();
+			response.data.forEach(function(item) {
+				$("#search-results tbody").append(
+						"<tr>" + 
+						"<td>" + item.name + "</td>" + 
+						"<td>Add</td>" + 
+						"</tr>");
+			});
+		}
 	});
 });
+
+$('#add-new-item').off('click').on('click', function() {
+	$('#search-window').fadeIn(200);
+	$('#saved-items').fadeOut(200);
+});
+
+function closeItemSearchMenu() {
+	$('#search-window').fadeOut(200);
+	$('#saved-items').fadeIn(200);
+}
 </script>

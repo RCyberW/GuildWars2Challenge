@@ -17,7 +17,7 @@
 						$('.active-tab').removeClass('active-tab');
 						$('.content-page').hide();
 						$(this).addClass('active-tab');
-						$('#' + $(this).html().replace(/ /g, '_') + '-page').show();
+						$('#' + $(this).html().replace(/ /g, '_') + '-page').fadeIn(300);
 						$('#wrapper').css('background-position', $(this).attr('data-bgPosition'));
 					});
 				});
@@ -82,7 +82,7 @@
 					<li data-bgPosition="bottom right">Memo</li>
 				</ul>
 				<div input id="opacity-control" onmousedown="event.stopPropagation()" onclick="changeOpacity()">T</div>
-				<div id="close-button" onmousedown="event.stopPropagation()" onclick="closeWindow()">X</div>
+				<div class="close-button" onmousedown="event.stopPropagation()" onclick="closeWindow()">X</div>
 			</div>
 			<div id="debug-menu">--Debug Menu--<br><br></div>
 			<div id="main-content">

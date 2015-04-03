@@ -1,13 +1,26 @@
-<div id="local-time"><h2>Local Time</h2><p></p></div>
-<div id="server-time"><h2>Server Time</h2><p></p></div>
+<div id="local-time"><h2>Local Time</h2><p>do $('#local-time p').html() here</p></div>
+<div id="server-time"><h2>Server Time</h2><p>do $('#server-time p').html() here</p></div>
 
-<div id="add-new-entry">Add new Entry</div>
-<div id="alarm-add-box"></div>
+<div id="alarm-window">
+	<div class="close-button" onclick="closeAlarmMenu()">X</div>
+</div>
+<div id="add-new-alarm" class="add-new">Add new Alarm</div>
+<br><br>
 <table id="alarms">
 	<tr>
-		<td width="80%">Label for Jormag</td>
-		<td width="15%">Time Remaining</td>
+		<td width="70%">Label for Jormag</td>
+		<td width="25%">Time Remaining</td>
 		<td>X</td>
 </table>
 
-<script src="js/alarm.js"></script>
+<script>
+	$('#add-new-alarm').off('click').on('click', function() {
+		$('#alarm-window').fadeIn(200);
+		$('#alarms').fadeOut(200);
+	});
+
+	function closeAlarmMenu() {
+		$('#alarm-window').fadeOut(200);
+		$('#alarms').fadeIn(200);
+	}
+</script>
