@@ -6,16 +6,6 @@
 		<table>
 			<tbody>
 				<tr><td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
-				<tr><td>hi</td><td>add</td></tr>
 			</tbody>
 		</table>
 	</div>
@@ -26,10 +16,9 @@
 <table id="saved-items">
 	<thead>
 		<tr>
-			<th>Icon</th>
-			<th>Name</th>
-			<th>Current Buy</th>
-			<th>Current Sell</th>
+			<th colspan=2 style="width:200px;">Item</th>
+			<th style="width:120px;">Current Buy</th>
+			<th style="width:120px;">Current Sell</th>
 		</tr>
 	</thead>
 	<tbody></tbody>
@@ -47,16 +36,21 @@ $("#searchButton").click(function() {
 		} else { // reload price table
 			$("#search-results tbody").empty();
 			response.data.forEach(function(item) {
-				var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
-				var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
-			
-				$("#saved-items tbody").append(
-						"<tr>" + 
-						'<td><img src="' + item.icon + '" style="width:50%; height:50%"/></td>' + 
-						"<td>" + item.name + "</td>" + 
-						"<td>" + buyPrice + "</td>" + 
-						"<td>" + soldPrice + "</td>" + 
-						"</tr>");
+				if (item != null) {
+					var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
+					var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
+				
+					$("#saved-items tbody").append(
+							"<tr>" + 
+							"<td style='background-color:rgb(192,192,192);'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+							"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
+							"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
+							"<td style='background-color:rgb(255,255,255);'>" + soldPrice + "</td>" + 
+							"</tr>");
+					closeItemSearchMenu();
+				} else {
+					// Display error message
+				}
 			});
 		}
 	});
@@ -77,6 +71,16 @@ function convertPriceToReadablePrice(price) {
 	var silver = price/100 % 100;
 	var gold = price/10000;
 	
-	return parseInt(gold) + " G " + parseInt(silver) + " S " + parseInt(copper) + " C";
+	var retString = "";
+	
+	if (gold > 0) {
+		retString += parseInt(gold) + " G ";
+	} 
+	if (gold > 0 || silver > 0) {
+		retString += parseInt(silver) + " S ";
+	} 
+	retString += parseInt(copper) + " C";
+	
+	return retString;
 }
 </script>
