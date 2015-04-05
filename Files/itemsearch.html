@@ -1,16 +1,20 @@
 <div id="search-window">
 	<div class="close-button" onclick="closeItemSearchMenu()">X</div>
-	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
-	<button id="searchButton">Search</button>
+	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
+	<div id="searchButton" class="generic-button">Search</div>
 	<div id="search-results">
 		<table>
 			<tbody>
+				<tr>
+					<td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td>
+					<td><div class="generic-button">add</div></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
 <br>
-<div id="add-new-item" class="add-new">Add new Item</div>
+<div id="add-new-item" class="generic-button">Add new Item</div>
 <br><br>
 <table id="saved-items">
 	<thead>
@@ -41,6 +45,7 @@ $("#searchButton").click(function() {
 				} else {
 					// Display error message
 					$("#search-window").append("Error");
+					debug('Nope');
 				}
 			});
 		}
@@ -50,6 +55,7 @@ $("#searchButton").click(function() {
 $('#add-new-item').off('click').on('click', function() {
 	$('#search-window').fadeIn(200);
 	$('#saved-items').fadeOut(200);
+	$('#itemIdsField').focus();
 });
 
 function closeItemSearchMenu() {
@@ -69,7 +75,7 @@ function appendRowToMainList(item) {
 			"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
 			"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
 			"<td style='background-color:rgb(255,255,255);'>" + soldPrice + "</td>" + 
-			"<td style='background-color:rgb(192,192,192);'><div onclick='removeRow(" + item.id + ")'>Remove</div></td>" + 
+			"<td style='background-color:rgb(192,192,192);'><div class='generic-button' onclick='removeRow(" + item.id + ")'>Remove</div></td>" + 
 			"</tr>");
 	//itemToWatchOutFor, amount, isGreaterThan
 	createWatchItem(item.id, 0, true);
