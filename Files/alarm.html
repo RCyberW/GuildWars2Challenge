@@ -3,8 +3,11 @@
 
 <div id="alarm-window">
 	<div class="close-button" onclick="closeAlarmMenu()">X</div>
+	<div id="alarmButton" class="generic-button">Add</div>
+	<input type="text" id="alarmLabel" placeholder="Alarm Label..." />
+	<input type="datetime-local" id="alarmTime" />
 </div>
-<div id="add-new-alarm" class="add-new">Add new Alarm</div>
+<div id="add-new-alarm" class="generic-button">Add new Alarm</div>
 <br><br>
 <table id="alarms">
 	<tr>
@@ -17,6 +20,7 @@
 	$('#add-new-alarm').off('click').on('click', function() {
 		$('#alarm-window').fadeIn(200);
 		$('#alarms').fadeOut(200);
+		$('#alarmLabel').focus();
 	});
 
 	function closeAlarmMenu() {

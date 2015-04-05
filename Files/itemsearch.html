@@ -1,17 +1,20 @@
 <div id="search-window">
 	<div class="close-button" onclick="closeItemSearchMenu()">X</div>
-	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };" autofocus>
-	<button id="searchButton">Search</button>
+	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
+	<div id="searchButton" class="generic-button">Search</div>
 	<div id="search-results">
 		<table>
 			<tbody>
-				<tr><td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td><td>add</td></tr>
+				<tr>
+					<td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td>
+					<td><div class="generic-button">add</div></td>
+				</tr>
 			</tbody>
 		</table>
 	</div>
 </div>
 <br>
-<div id="add-new-item" class="add-new">Add new Item</div>
+<div id="add-new-item" class="generic-button">Add new Item</div>
 <br><br>
 <table id="saved-items">
 	<thead>
@@ -49,7 +52,7 @@ $("#searchButton").click(function() {
 							"</tr>");
 					closeItemSearchMenu();
 				} else {
-					// Display error message
+					debug('Nope');
 				}
 			});
 		}
@@ -59,6 +62,7 @@ $("#searchButton").click(function() {
 $('#add-new-item').off('click').on('click', function() {
 	$('#search-window').fadeIn(200);
 	$('#saved-items').fadeOut(200);
+	$('#itemIdsField').focus();
 });
 
 function closeItemSearchMenu() {

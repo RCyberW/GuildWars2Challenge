@@ -70,7 +70,7 @@ html, body {
 	color:black;
 }
 
-input[type="text"] {
+input {
 	padding:1vw;
 	border-radius: 15px 0 15px 0;
 	outline-width:0;
@@ -220,19 +220,18 @@ tbody td {
 	display:none;
 	position:absolute;
 	width:67vw;
-	height:55vw;
 	top:13vw;
 	left:10.5vw;
 	border:5px solid rgb(47, 20, 9);
 	background-color:rgba(255, 255, 255, .6);
 	border-radius:15px;
-	padding:7vw 3vw;
+	padding:7vw 3vw 3vw 3vw;
 }
 
 #search-results {
 	width:67vw;
-	height:50vw;
-	margin-top:8vw;
+	max-height:50vw;
+	margin-top:12vw;
 	overflow:auto;
 }
 
@@ -240,28 +239,31 @@ tbody td {
 	width:65vw;
 }
 
+#search-results .generic-button {
+	padding:1vw 2vw;
+}
+
 #search-results td:first-child {
-	width:90%;
+	width:85%;
 	overflow:hidden;
 	text-overflow:ellipsis;
 	white-space: nowrap;
 }
 
 #itemIdsField {
-	margin-left:2vw;
+	margin:2vw 0 0 2vw;
 	float:left;
 	width:40vw;
 }
 
 #searchButton {
-	margin:.8vw 2vw 0 0;
+	margin:1vw 0 0 2vw;
 	float:right;
 }
 
-.add-new {
-	width:35vw;
+.generic-button {
 	border-radius:10px;
-	padding:2vw;
+	padding:2vw 4vw;
 	margin:0 auto 5px auto;
 	display:inline-block;
 	color:#DDD;
@@ -278,7 +280,11 @@ tbody td {
 	user-select: none;
 }
 
-.add-new:active {
+.generic-button:hover {
+	box-shadow:0 0 10px 1px rgb(200, 200, 25);
+}
+
+.generic-button:active {
 	background: linear-gradient(to bottom, rgb(70, 31, 13), rgb(55, 25, 8) 70%, rgb(70, 31, 13));
 }
 
@@ -307,12 +313,28 @@ tbody td {
 #alarm-window {
 	display:none;
 	position:absolute;
-	width:72vw;
-	height:15vw;
-	top:35vw;
+	width:71.5vw;
+	top:33vw;
 	left:6vw;
 	border:5px solid rgb(47, 20, 9);
 	background-color:rgba(255, 255, 255, .6);
-	border-radius:10px;
-	padding:5vw;
+	border-radius:15px;
+	padding:3vw;
+}
+
+#alarmLabel {
+	margin:5vw 0 0 2vw;
+	float:left;
+	width:40vw;
+}
+
+#alarmTime {
+	margin:3vw 0 3vw 2vw;
+	float:left;
+	width:40vw;
+}
+
+#alarmButton {
+	margin:8vw 5vw 0 0;
+	float:right;
 }
