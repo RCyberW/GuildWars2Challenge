@@ -5,7 +5,6 @@
 	<div id="search-results">
 		<table>
 			<tbody>
-				<tr><td>hi Text too long will just get cut hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi hi </td><td>add</td></tr>
 			</tbody>
 		</table>
 	</div>
@@ -37,19 +36,11 @@ $("#searchButton").click(function() {
 			$("#search-results tbody").empty();
 			response.data.forEach(function(item) {
 				if (item != null) {
-					var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
-					var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
-				
-					$("#saved-items tbody").append(
-							"<tr>" + 
-							"<td style='background-color:rgb(192,192,192);'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
-							"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
-							"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
-							"<td style='background-color:rgb(255,255,255);'>" + soldPrice + "</td>" + 
-							"</tr>");
-					closeItemSearchMenu();
+					// Display and hide the search window
+					appendRowToMainList(item);
 				} else {
 					// Display error message
+					$("#search-window").append("Error");
 				}
 			});
 		}
@@ -66,6 +57,26 @@ function closeItemSearchMenu() {
 	$('#saved-items').fadeIn(200);
 }
 
+// Create a new row in the main result list
+function appendRowToMainList(item) {
+	// Add item to watch list
+	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
+	var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
+
+	$("#saved-items tbody").append(
+			"<tr id=" + item.id + ">" + 
+			"<td style='background-color:rgb(192,192,192);'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+			"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
+			"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
+			"<td style='background-color:rgb(255,255,255);'>" + soldPrice + "</td>" + 
+			"<td style='background-color:rgb(192,192,192);'><div onclick='removeRow(" + item.id + ")'>Remove</div></td>" + 
+			"</tr>");
+	//itemToWatchOutFor, amount, isGreaterThan
+	createWatchItem(item.id, 0, true);
+	closeItemSearchMenu();
+}
+
+// Convert price to a readable value
 function convertPriceToReadablePrice(price) {
 	var copper = price % 100;
 	var silver = price/100 % 100;
@@ -82,5 +93,11 @@ function convertPriceToReadablePrice(price) {
 	retString += parseInt(copper) + " C";
 	
 	return retString;
+}
+
+// Remove the selected row
+function removeRow(rowID) {
+	// Remove item from watchlist
+	$("#" + rowID).remove();
 }
 </script>

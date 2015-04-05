@@ -108,6 +108,14 @@ GW2App = {
 		// Internally when we store this to the map, we can store the itemID for ease of access later
 		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor,amount,isGreaterThan);
 	},
+	
+	// - specify the item that the user want to remove
+	removeWatchItem : function(itemToWatchOutFor) {
+		var index = this.watchList.indexOf(itemToWatchOutFor);
+		if (index > -1) {
+			this.watchList.splice(index, 1);
+		}
+	},
 
 	// - intervalAmount is how many minutes till countdown
 	// - nextTime is the absolute local time until the alarm
@@ -137,8 +145,10 @@ GW2App = {
 		var self = GW2App;
 		
 		$.getJSON(myUrl, function(itemInfos) {
-			var itemID = itemInfos.results[0].data_id;
-			self.getItemInfoAndPrices(itemID, callback);
+			for(var i = 0; i < itemInfos.results.length; i++) {
+				var itemID = itemInfos.results[i].data_id;
+				self.getItemInfoAndPrices(itemID, callback);
+			}
 		});
 	},
 	
