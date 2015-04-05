@@ -86,7 +86,7 @@ table {
 th{
 	font-weight:bold;
 	text-align:center;
-	padding-bottom:1vw;
+	padding:1.5vw 1.5vw;
 }
 
 tr {
@@ -220,7 +220,7 @@ tbody td {
 	display:none;
 	position:absolute;
 	width:67vw;
-	top:13vw;
+	top:22vw;
 	left:10.5vw;
 	border:5px solid rgb(47, 20, 9);
 	background-color:rgba(255, 255, 255, .6);
@@ -286,6 +286,29 @@ tbody td {
 
 .generic-button:active {
 	background: linear-gradient(to bottom, rgb(70, 31, 13), rgb(55, 25, 8) 70%, rgb(70, 31, 13));
+}
+
+#saved-items-headers {
+	width:97%;
+}
+
+#saved-window {
+	margin:1vw auto 0 auto;
+	max-height:65vw;
+	overflow:auto;
+	padding:1vw;
+}
+
+#saved-items * {
+	vertical-align:middle;
+}
+
+#saved-items td {
+	background-color:rgb(192,192,192);
+}
+
+#saved-items td:nth-child(even) {
+	background-color:rgb(255,255,255);
 }
 
 
