@@ -145,10 +145,13 @@ GW2App = {
 		var self = GW2App;
 		
 		$.getJSON(myUrl, function(itemInfos) {
+			var itemQuery = "";
 			for(var i = 0; i < itemInfos.results.length; i++) {
 				var itemID = itemInfos.results[i].data_id;
-				self.getItemInfoAndPrices(itemID, callback);
+				itemQuery += itemID + ","
 			}
+			
+			self.getItemInfoAndPrices(itemQuery, callback);
 		});
 	},
 	
