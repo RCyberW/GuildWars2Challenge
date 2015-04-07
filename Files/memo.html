@@ -26,6 +26,7 @@
 		</tbody>
 	</table>
 </div>
+
 <script type="text/javascript">
 
 	updateMemoList();
@@ -40,15 +41,18 @@
 		}
 	});
 	
+	// re-draws the memo list in the table
 	function updateMemoList() {
 		$("#memoList").empty();
 		GW2App.listOfMemos.forEach(function(memo, idx) {
-			var memoListElement = $("#memoList");
-			memoListElement.append("<tr>" + 
+			$("#memoList").append("<tr id='memo_row_" + idx + "'>" + 
 				"<td>" + memo.type + "</td>" +
-				"<td>" + memo.message + "</td>" + 
-				"<td id='deleteButtonTd_" + idx +"'></td>" + 
+				"<td class='message'>" + memo.message + "</td>" + 
+				"<td class='action'></td>" + 
 				"</tr>");
+			
+			var editButton = $("<button>Edit</button>");
+			editButton.click(function() {});
 			
 			var deleteButton = $("<button>Delete</button>");
 			deleteButton.click(function() {
@@ -58,7 +62,9 @@
 					updateMemoList();
 				}
 			});
-			$("#deleteButtonTd_" + idx).append(deleteButton);	
+			
+			$("#memo_row_" + idx + " .action").append(editButton);	
+			$("#memo_row_" + idx + " .action").append(deleteButton);	
 		});
 	}
 </script>
