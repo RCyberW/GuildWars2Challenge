@@ -315,7 +315,7 @@ var Alarm = function(intervalAmount, nextTime, alarmLabel) {
 var Memo = function(memoID, message, type) {
 	this.memoID = memoID;
 	this.message = message;
-	this.type = type;s
+	this.type = type;
 };
 
 // For Testing
