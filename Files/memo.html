@@ -14,10 +14,18 @@
 <br>
 <div>
 	<div>My memos: </div>
-	<ul id="memoList"></ul>
+	<table>
+		<thead>
+			<tr>
+				<td>Category</td>
+				<td>Message</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody id="memoList">
+		</tbody>
+	</table>
 </div>
-<script src="js/gw2app.js"></script>
-<script src="js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript">
 
 	updateMemoList();
@@ -34,8 +42,23 @@
 	
 	function updateMemoList() {
 		$("#memoList").empty();
-		GW2App.listOfMemos.forEach(function(memo) {
-			$("#memoList").append("<li>(" + memo.type + ") " + memo.message + "</li>");
+		GW2App.listOfMemos.forEach(function(memo, idx) {
+			var memoListElement = $("#memoList");
+			memoListElement.append("<tr>" + 
+				"<td>" + memo.type + "</td>" +
+				"<td>" + memo.message + "</td>" + 
+				"<td id='deleteButtonTd_" + idx +"'></td>" + 
+				"</tr>");
+			
+			var deleteButton = $("<button>Delete</button>");
+			deleteButton.click(function() {
+				var removeIdx = GW2App.listOfMemos.indexOf(memo);
+				if (removeIdx > -1) {
+					delete GW2App.listOfMemos[removeIdx];
+					updateMemoList();
+				}
+			});
+			$("#deleteButtonTd_" + idx).append(deleteButton);	
 		});
 	}
 </script>
