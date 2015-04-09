@@ -1,0 +1,70 @@
+<div id="newNotesContainer">
+	<input type="text" id="memoField" placeholder="Enter Memo"/>
+	<select id="noteTypeField">
+		<option value="General">General</option>
+		<option value="Events">Events</option>
+		<option value="Dungeon">Dungeon</option>
+		<option value="Guild">Guild</option>
+		<option value="Exploration">Exploration</option>
+		<option value="PvP">PvP</option>
+		<option value="WvW">WvW</option>
+	</select>
+	<input type="button" id="addMemoButton" value="Done"/>
+</div>
+<br>
+<div>
+	<div>My memos: </div>
+	<table>
+		<thead>
+			<tr>
+				<td>Category</td>
+				<td>Message</td>
+				<td></td>
+			</tr>
+		</thead>
+		<tbody id="memoList">
+		</tbody>
+	</table>
+</div>
+
+<script type="text/javascript">
+
+	updateMemoList();
+	
+	$("#addMemoButton").click(function() {
+		var message = $("#memoField").val();
+		if (message.length > 0) {
+			var type = $("#noteTypeField").val();
+			GW2App.createMemo(0, message, type);
+			$("#memoField").val("");
+			updateMemoList();
+		}
+	});
+	
+	// re-draws the memo list in the table
+	function updateMemoList() {
+		$("#memoList").empty();
+		GW2App.listOfMemos.forEach(function(memo, idx) {
+			$("#memoList").append("<tr id='memo_row_" + idx + "'>" + 
+				"<td>" + memo.type + "</td>" +
+				"<td class='message'>" + memo.message + "</td>" + 
+				"<td class='action'></td>" + 
+				"</tr>");
+			
+			var editButton = $("<button>Edit</button>");
+			editButton.click(function() {});
+			
+			var deleteButton = $("<button>Delete</button>");
+			deleteButton.click(function() {
+				var removeIdx = GW2App.listOfMemos.indexOf(memo);
+				if (removeIdx > -1) {
+					delete GW2App.listOfMemos[removeIdx];
+					updateMemoList();
+				}
+			});
+			
+			$("#memo_row_" + idx + " .action").append(editButton);	
+			$("#memo_row_" + idx + " .action").append(deleteButton);	
+		});
+	}
+</script>

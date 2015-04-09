@@ -34,20 +34,31 @@
 $("#searchButton").click(function() {
 	var itemIds = $("#itemIdsField").val();
 	GW2App.getItemIDByName(itemIds, function(response) {
-		if (!response.success) { // failed response
+		if (!response.success) { 
+			// Failed response
+			// Display error message notifying something went wrong
+			$("#search-window").append("Cannot find item");
 			debug("Error from GW2 API: " + response.errorMsg);
-		} else { // reload price table
+		} else { 
+			// Reload price table
 			$("#search-results tbody").empty();
-			response.data.forEach(function(item) {
-				if (item != null) {
-					// Display and hide the search window
-					appendRowToMainList(item);
-				} else {
-					// Display error message
-					$("#search-window").append("Error");
-					debug('Nope');
-				}
-			});
+			if (response.data.length == 1) {
+				// If there is only one result, add the result to the watch list
+				response.data.forEach(function(item) {
+					if (item != null) {
+						// Display and hide the search window
+						appendRowToMainList(item, true);
+					}
+				});
+			} else {
+				// Display all the results and ask the users to add them by clicking on "add" button
+				response.data.forEach(function(item) {
+					if (item != null) {
+						// Display and show the list of results
+						appendRowToSearchResult(item);
+					}
+				});
+			}
 		}
 	});
 	closeItemSearchMenu();
@@ -64,26 +75,65 @@ function closeItemSearchMenu() {
 	$('#saved-items').fadeIn(200);
 }
 
-// Create a new row in the main result list
-function appendRowToMainList(item) {
-	// Add item to watch list
-	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
-	var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
+// Create a new row in the watch list using the item object
+function appendRowToMainList(item, closeWindow) {
+	// Extract the necessary properties from the item object
+	appendRowToMainList(item.icon, item.name, item.price.buys.unit_price, item.price.sells.unit_price, item.id, closeWindow);
+}
 
-	$("#saved-items tbody").append(
+// Create a new row in the watch list using the item values
+function appendRowToMainList(iconPath, itemName, originalBuyPrice, originalSellPrice, itemId, closeWindow) {
+	// Convert the price into legible format
+	var soldPrice = convertPriceToReadablePrice(originalSellPrice);
+	var buyPrice = convertPriceToReadablePrice(originalBuyPrice);
+
+	// Create new row in the main result list
+	$("#saved-items tbody").append(createMainListRow(iconPath, itemName, buyPrice, soldPrice, itemId));
+
+	if (closeWindow) {
+		// Hide and close the search view
+		closeItemSearchMenu();
+	}
+	// Enter the entry into item watch
+	GW2App.createWatchItem(itemId, 0, true);
+}
+
+// Create a new row using the selected properties
+function createMainListRow(iconPath, itemName, buyPrice, sellPrice, itemId) {
+	var newRow = "<tr id=" + itemId + ">" + 
+			"<td style='background-color:rgb(192,192,192);'><img src='" + iconPath + "' style='width:25px; height:25px'/></td>" + 
+			"<td style='background-color:rgb(255,255,255);'>" + itemName + "</td>" + 
+			"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
+			"<td style='background-color:rgb(255,255,255);'>" + sellPrice + "</td>" + 
+			"<td style='background-color:rgb(192,192,192);'><div class='generic-button' onclick='removeRow(" + itemId + ")'>Remove</div></td>" + 
+			"</tr>";
+	return newRow;
+}
+
+// Create a new row in the search result list
+function appendRowToSearchResult(item) {
+	// Create new row in the main result list	
+	$("#search-results tbody").append(
 			"<tr id=" + item.id + ">" + 
+<<<<<<< HEAD
 			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
 			"<td width='150px'>" + item.name + "</td>" + 
 			"<td width='100px'>" + buyPrice + "</td>" + 
 			"<td width='100px'>" + soldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>remove</div></td>" + 
+=======
+			"<td style='background-color:rgb(192,192,192);'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+			"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
+			"<td style='background-color:rgb(192,192,192);'><div class='generic-button' id='generic_btn_id_" + item.id + "'>Add</div></td>" + 
+>>>>>>> origin/master
 			"</tr>");
-	//itemToWatchOutFor, amount, isGreaterThan
-	createWatchItem(item.id, 0, true);
-	closeItemSearchMenu();
+	
+	$("#generic_btn_id_" + item.id).click(function() {
+		appendRowToMainList(item.icon, item.name, item.price.buys.unit_price, item.price.sells.unit_price, item.id, false);
+	});
 }
 
-// Convert price to a readable value
+// Convert price to a human readable value
 function convertPriceToReadablePrice(price) {
 	var copper = price % 100;
 	var silver = price/100 % 100;
