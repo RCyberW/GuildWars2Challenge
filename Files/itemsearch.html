@@ -16,16 +16,22 @@
 </div>
 <br><br>
 <div id="result-field">
-<table id="saved-items">
+<table id="saved-items-headers">
 	<thead>
 		<tr>
-			<th colspan=2 style="width:200px;">Item</th>
-			<th style="width:120px;">Current Buy</th>
-			<th style="width:120px;">Current Sell</th>
+			<th width='200px'>Item</th>
+			<th width='100px'>Current Buy</th>
+			<th width='100px'>Current Sell</th>
+			<th>Action</th>
 		</tr>
 	</thead>
-	<tbody></tbody>
 </table>
+</div>
+
+<div id="saved-window">
+	<table id="saved-items">
+		<tbody></tbody>
+	</table>
 </div>
 
 <script src="js/gw2app.js"></script>
@@ -41,6 +47,7 @@ $("#searchButton").click(function() {
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
 		handleItems(response);
 	});
+	closeItemSearchMenu();
 });
 
 $('#add-new-item').off('click').on('click', function() {
@@ -119,11 +126,11 @@ function appendRowToMainList(iconPath, rarity, itemName, originalBuyPrice, origi
 // Create a new row using the selected properties
 function createMainListRow(iconPath, rarity, itemName, buyPrice, sellPrice, itemId) {
 	var newRow = "<tr id=" + itemId + ">" + 
-			"<td style='background-color:rgb(192,192,192); width:25px;'><img src='" + iconPath + "' style='width:25px; height:25px'/></td>" + 
-			"<td style='background-color:rgb(255,255,255);'>" + itemName + "</td>" + 
-			"<td style='background-color:rgb(192,192,192);'>" + buyPrice + "</td>" + 
-			"<td style='background-color:rgb(255,255,255);'>" + sellPrice + "</td>" + 
-			"<td style='background-color:rgb(192,192,192);'><div class='generic-button' onclick='removeRow(" + itemId + ")'>Remove</div></td>" + 
+			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+			"<td width='150px'>" + item.name + "</td>" + 
+			"<td width='100px'>" + buyPrice + "</td>" + 
+			"<td width='100px'>" + soldPrice + "</td>" + 
+			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>remove</div></td>" + 
 			"</tr>";
 	return newRow;
 }
