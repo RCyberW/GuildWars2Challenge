@@ -6,12 +6,15 @@ GW2App = {
 	MILLISECONDS: 1000,
 	pricev2JSON: "https://api.guildwars2.com/v2/commerce/prices",
 	itemv2JSON: "https://api.guildwars2.com/v2/items",
-
+	gw2spidySearchJSON: "http://www.gw2spidy.com/api/v0.9/json/item-search/",
+	
+	rarityLevel: ["basic", "fine", "masterwork", "rare", "exotic", "ascended", "legendary"],	
+	
 	autoUpdating: false,
 	
 	itemDictionary: {},
 	// We would need to store a map of item that the user want an update for to a price that they define - item-id to WatchItem
-	watchList: {},
+	watchList: [],
 	// Store the result of each auto update for future use - probably don't need
 	// listOfUpdates: [],
 	// Create a list of user specified alarm
@@ -107,13 +110,21 @@ GW2App = {
 	createWatchItem : function(itemToWatchOutFor, amount, isGreaterThan) {
 		// Internally when we store this to the map, we can store the itemID for ease of access later
 		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor,amount,isGreaterThan);
+		
+		/* var watchListItems = "";
+		
+		for (var i = 0; i < this.watchList.length; i++) {
+			watchListItems += this.watchList[i].itemToWatchOutFor + ", ";
+		}
+		
+		saveToLocalStorage("watchList", watchListItems); */
 	},
 	
 	// - specify the item that the user want to remove
 	removeWatchItem : function(itemToWatchOutFor) {
-		var index = this.watchList.indexOf(itemToWatchOutFor);
-		if (index > -1) {
-			this.watchList.splice(index, 1);
+		var removeIdx = GW2App.watchList.indexOf(itemToWatchOutFor);
+		if (removeIdx > -1) {
+			delete GW2App.watchList[removeIdx];
 		}
 	},
 
@@ -140,23 +151,24 @@ GW2App = {
 
 	// Allow the user to search items by name instead of using item ID.
 	// This will take the user input and translate that into item ID for backend processing
-	getItemIDByName : function(itemName, callback) {
-		var myUrl = "http://www.gw2spidy.com/api/v0.9/json/item-search/" + itemName + "/1";
+	getItemIDByName : function(itemName, pageCount, callback) {
 		var self = GW2App;
+		var myUrl = this.gw2spidySearchJSON + itemName + "/" + pageCount;
 		
-		$.getJSON(myUrl, function(itemInfos) {
-			var itemQuery = "";
-			for(var i = 0; i < itemInfos.results.length; i++) {
-				var itemID = itemInfos.results[i].data_id;
+		var itemQuery = "";
+		
+		$.getJSON(myUrl, function(response) {
+			// If only one page, then go ahead with creating the list
+			for(var i = 0; i < response.results.length; i++) {
+				var itemID = response.results[i].data_id;
 				itemQuery += itemID + ","
 			}
-			
-			self.getItemInfoAndPrices(itemQuery, callback);
+			self.getItemInfoAndPrices(itemQuery, response.page, response.last_page, callback);
 		});
 	},
 	
 	// returns info and prices from the GW2 API for specified itemIds
-	getItemInfoAndPrices : function(itemIds, callback) {
+	getItemInfoAndPrices : function(itemIds, currentPage, lastPage, callback) {
 		var self = GW2App;
 		self.getItemInfo(itemIds, function(infoResult) {
 			if (infoResult.success) { 
@@ -174,10 +186,13 @@ GW2App = {
 							var price = priceResult.data[i];
 							var item = items[price.id];
 							item.price = price;
-							responseItemList.push(item);
+							
+							if(UrlExists(item.icon)) {
+								responseItemList.push(item);
+							}
 						}
 						
-						callback(new Response(responseItemList));
+						callback(new Response(new ResultList(responseItemList, currentPage, lastPage)));
 					} else {
 						callback(new Error(priceResult.error));
 					}
@@ -221,7 +236,8 @@ GW2App = {
 			query = itemIds;
 		}
 		// get prices for items
-		$.getJSON(this.pricev2JSON + "?ids=" + query, function(prices) {
+		var jsonCall = this.pricev2JSON + "?ids=" + query;
+		$.getJSON(jsonCall, function(prices) {
 			var priceList = [];
 			prices.forEach(function(price) {
 				priceList.push(price);
@@ -252,6 +268,18 @@ GW2App = {
 				endIndex += subArrSize;
 			}
 		});
+	},
+	
+	// Store the value to the local storage
+	// key - the key
+	// value - the value
+	saveToLocalStorage : function(key, value) {
+		localStorage.setItem(key, value);
+	},
+	
+	
+	getFromLocalStorage : function(key, callback) {
+		var value = localStorage.getItem(key);
 	}
 };
 
@@ -291,6 +319,12 @@ var Item = function() {};
 // properties: id, buys.quantity, buys.unit_price, sells.quantity, sells.unit_price
 var ItemPrice = function() {};
 
+var ResultList = function(currentList, currentPage, lastPage) {
+	this.currentList = currentList;
+	this.currentPage = currentPage;
+	this.lastPage = lastPage;
+};
+
 // - the item-id that the user want to keep track of
 // - the amount to check for is greater than or less than that appears in the TP
 // - isGreaterThan the comparison uses >= or <=
@@ -328,3 +362,10 @@ GW2App.testMe = function() {
 	//GW2App.getAllItems(function(response) { console.log(response); });
 }; 
 
+
+function UrlExists(url) {
+    var http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status!=404;
+}
