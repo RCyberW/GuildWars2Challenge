@@ -1,20 +1,15 @@
 <div id="search-window">
-	<div class="close-button" onclick="closeItemSearchMenu()">X</div>
-	<input type="text" id="itemIdsField" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
-	<div id="searchButton" class="generic-button">Search</div>
+	<div class="close-button" onclick="closeSearchResults()">X</div>
 	<div id="search-results">
 		<table>
 			<tbody></tbody>
 		</table>
 	</div>
 </div>
-<br>
-<!-- <div id="add-new-item" class="generic-button">Add new Item</div> -->
 <div id="search-field">
-<input type="text" id="search-field-item" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
-<div id="searchButton" class="generic-button">Search</div>
+	<input type="text" id="search-field-item" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
+	<div id="searchButton" class="generic-button">Search</div>
 </div>
-<br><br>
 <div id="result-field">
 <table id="saved-items-headers">
 	<thead>
@@ -40,29 +35,19 @@
 
 // click the search button
 $("#searchButton").click(function() {
-	var searchTerm = $("#itemIdsField").val();
-	if (!searchTerm) {
-		searchTerm = $("#search-field-item").val();
-	}
+	searchTerm = $("#search-field-item").val();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
+		$("#search-field-item").val('');
 		handleItems(response);
 	});
-	closeItemSearchMenu();
 });
 
-$('#add-new-item').off('click').on('click', function() {
-	openItemSearchMenu();
-});
-
-function openItemSearchMenu() {
+function openSearchResults() {
 	$('#search-window').fadeIn(200);
-	$('#saved-items').fadeOut(200);
-	$('#itemIdsField').focus();
 }
 
-function closeItemSearchMenu() {
+function closeSearchResults() {
 	$('#search-window').fadeOut(200);
-	$('#saved-items').fadeIn(200);
 }
 
 // Parse and handle item detail response
@@ -73,20 +58,18 @@ function handleItems(response) {
 		$("#search-window").append("Cannot find item");
 		debug("Error from GW2 API: " + response.errorMsg);
 	} else { 
-		// Reload price table		
+		// Reload price table
 		if (response.data.currentList.length == 1) {
-			$("#search-field-item").empty();
 			// If there is only one result, add the result to the watch list
 			response.data.currentList.forEach(function(item) {
 				if (item != null) {
 					// Display and hide the search window
-					appendItemToMainList(item, true);
+					createMainListRow(item);
 				}
 			});
 		} else {
-			$('#itemIdsField').val($("#search-field-item").val());
 			$("#search-results tbody").empty();
-			openItemSearchMenu();
+			openSearchResults();
 			var pageCount = response.data.lastPage;
 			var currentPage = response.data.currentPage;
 			// Display all the results and ask the users to add them by clicking on "add" button
@@ -100,38 +83,18 @@ function handleItems(response) {
 	}
 }
 
-// Create a new row in the watch list using the item object
-function appendItemToMainList(item, closeWindow) {
-	// Extract the necessary properties from the item object
-	appendRowToMainList(item.icon, item.rarity, item.name, item.price.buys.unit_price, item.price.sells.unit_price, item.id, closeWindow);
-}
-
-// Create a new row in the watch list using the item values
-function appendRowToMainList(iconPath, rarity, itemName, originalBuyPrice, originalSellPrice, itemId, closeWindow) {
-	// Convert the price into legible format
-	var soldPrice = convertPriceToReadablePrice(originalSellPrice);
-	var buyPrice = convertPriceToReadablePrice(originalBuyPrice);
-
-	// Create new row in the main result list
-	$("#saved-items tbody").append(createMainListRow(iconPath, rarity, itemName, buyPrice, soldPrice, itemId));
-
-	if (closeWindow) {
-		// Hide and close the search view
-		closeItemSearchMenu();
-	}
-	// Enter the entry into item watch
-	GW2App.createWatchItem(itemId, 0, true);
-}
-
 // Create a new row using the selected properties
-function createMainListRow(iconPath, rarity, itemName, buyPrice, sellPrice, itemId) {
-	var newRow = "<tr id=" + itemId + ">" + 
+function createMainListRow(item) {
+	var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
+	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
+	var newRow = "<tr id=" + item.id + ">" + 
 			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
 			"<td width='150px'>" + item.name + "</td>" + 
 			"<td width='100px'>" + buyPrice + "</td>" + 
 			"<td width='100px'>" + soldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>remove</div></td>" + 
 			"</tr>";
+	$('#saved-items tbody').append(newRow);
 	return newRow;
 }
 
@@ -140,21 +103,27 @@ function appendRowToSearchResult(item) {
 	// Create new row in the main result list	
 	$("#search-results tbody").append(
 			"<tr>" + 
-			"<td style='background-color:rgb(192,192,192);'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
-			"<td style='background-color:rgb(255,255,255);'>" + item.name + "</td>" + 
-			"<td style='background-color:rgb(192,192,192);'><div class='generic-button' id='generic_btn_id_" + item.id + "'>Add</div></td>" + 
+			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+			"<td>" + item.name + "</td>" + 
+			"<td width='75px'><div class='generic-button' id='generic_btn_id_" + item.id + "'>Add</div></td>" + 
 			"</tr>");
 	
 	$("#generic_btn_id_" + item.id).click(function() {
-		appendRowToMainList(item.icon, item.rarity, item.name, item.price.buys.unit_price, item.price.sells.unit_price, item.id, false);
+		$(this).parent().parent().remove();
+		createMainListRow(item);
+		GW2App.createWatchItem(item.id, 0, true);
 	});
 }
 
 function loadSavedContent() {
-	var length = GW2App.watchList.length;
-	for(var i = 0; i < length; i++) {
-		appendRowToMainList(iconPath, itemName, originalBuyPrice, originalSellPrice, itemId, false);
-	}
+	GW2App.getItemInfo(GW2App.watchList, function(response) {
+		response.data.currentList.forEach(function(item) {
+			if (item != null) {
+				// Display and show the list of results
+				createMainListRow(item);
+			}
+		});
+	});
 }
 
 // Convert price to a human readable value

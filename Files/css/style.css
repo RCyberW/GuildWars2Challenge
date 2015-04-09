@@ -223,7 +223,7 @@ tbody td {
 	top:22vw;
 	left:10.5vw;
 	border:5px solid rgb(47, 20, 9);
-	background-color:rgba(255, 255, 255, .6);
+	background-color:rgba(255, 255, 255, .8);
 	border-radius:15px;
 	padding:7vw 3vw 3vw 3vw;
 }
@@ -231,7 +231,6 @@ tbody td {
 #search-results {
 	width:67vw;
 	max-height:50vw;
-	margin-top:12vw;
 	overflow:auto;
 }
 
@@ -243,22 +242,16 @@ tbody td {
 	padding:1vw 2vw;
 }
 
-#search-results td:first-child {
-	width:85%;
-	overflow:hidden;
-	text-overflow:ellipsis;
-	white-space: nowrap;
+#search-field {
+	margin:3vw 0;
 }
 
-#itemIdsField {
-	margin:2vw 0 0 2vw;
-	float:left;
+#search-field-item {
 	width:40vw;
+	margin-right:15vw;
 }
 
 #searchButton {
-	margin:1vw 0 0 2vw;
-	float:right;
 }
 
 .generic-button {
@@ -303,14 +296,21 @@ tbody td {
 	vertical-align:middle;
 }
 
-#saved-items td {
+#saved-items td{
 	background-color:rgb(192,192,192);
 }
 
-#saved-items td:nth-child(even) {
+#saved-items td:nth-child(even){
 	background-color:rgb(255,255,255);
 }
 
+.basic-border { }
+.fine-border { }
+.masterwork-border { }
+.rare-border { }
+.exotic-border { }
+.ascended-border { }
+.legendary-border { }
 
 /*=====================
 	ALARM PAGE

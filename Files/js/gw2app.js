@@ -213,7 +213,7 @@ GW2App = {
 	getItemInfo : function(itemIds, callback) {
 		var query = "";
 		if($.isArray(itemIds)){
-			itemIds.forEach(function(item) { query += item + ","; });
+			query = itemIds.join(',');
 		} else {
 			query = itemIds;
 		}
