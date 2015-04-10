@@ -9,19 +9,20 @@
 		<option value="PvP">PvP</option>
 		<option value="WvW">WvW</option>
 	</select>
-	<input type="button" id="addMemoButton" value="Done"/>
+	<div class="generic-button" id="addMemoButton">Done</div>
 </div>
 <br>
 <div>
-	<div>My memos: </div>
+	<div>My memos:</div>
 	<table>
 		<thead>
 			<tr>
-				<td>Category</td>
-				<td>Message</td>
-				<td></td>
+				<th width="75px">Category</th>
+				<th width="275px">Message</th>
 			</tr>
 		</thead>
+	</table>
+	<table>
 		<tbody id="memoList">
 		</tbody>
 	</table>
@@ -46,9 +47,9 @@
 		$("#memoList").empty();
 		GW2App.listOfMemos.forEach(function(memo, idx) {
 			$("#memoList").append("<tr id='memo_row_" + idx + "'>" + 
-				"<td>" + memo.type + "</td>" +
-				"<td class='message'>" + memo.message + "</td>" + 
-				"<td class='action'></td>" + 
+				"<td width='75px'>" + memo.type + "</td>" +
+				"<td width='175px' class='message'>" + memo.message + "</td>" + 
+				"<td width='100px' class='action'></td>" + 
 				"</tr>");
 			
 			var editButton = $("<button>Edit</button>");

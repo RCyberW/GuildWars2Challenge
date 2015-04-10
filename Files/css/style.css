@@ -304,13 +304,18 @@ tbody td {
 	background-color:rgb(255,255,255);
 }
 
-.basic-border { }
-.fine-border { }
-.masterwork-border { }
-.rare-border { }
-.exotic-border { }
-.ascended-border { }
-.legendary-border { }
+.item-icon {
+	border:2px solid black;
+	width:26px;
+	height:26px;
+}
+
+.fine-border { border-color: #62A4DA; }
+.masterwork-border { border-color: #1A9306; }
+.rare-border { border-color: #FCD00B; }
+.exotic-border { border-color: #FFA405; }
+.ascended-border { border-color: #FB3E8D; }
+.legendary-border { border-color: #4C139D; }
 
 /*=====================
 	ALARM PAGE

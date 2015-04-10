@@ -88,8 +88,8 @@ function createMainListRow(item) {
 	var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
 	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
 	var newRow = "<tr id=" + item.id + ">" + 
-			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
-			"<td width='150px'>" + item.name + "</td>" + 
+			"<td width='30px'><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border'></td>" + 
+			"<td width='145px'>" + item.name + "</td>" + 
 			"<td width='100px'>" + buyPrice + "</td>" + 
 			"<td width='100px'>" + soldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>remove</div></td>" + 
@@ -103,7 +103,7 @@ function appendRowToSearchResult(item) {
 	// Create new row in the main result list	
 	$("#search-results tbody").append(
 			"<tr>" + 
-			"<td width='25px'><img src='" + item.icon + "' style='width:25px; height:25px'/></td>" + 
+			"<td width='30px'><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border'></td>" + 
 			"<td>" + item.name + "</td>" + 
 			"<td width='75px'><div class='generic-button' id='generic_btn_id_" + item.id + "'>Add</div></td>" + 
 			"</tr>");
