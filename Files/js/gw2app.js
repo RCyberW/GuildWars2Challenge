@@ -166,7 +166,7 @@ GW2App = {
 				}
 				self.getItemInfoAndPrices(itemQuery, response.page, response.last_page, callback);
 			} else {
-				callback(new Error(priceResult.error));
+				callback(new Error(response.error));
 			}
 		});
 	},
