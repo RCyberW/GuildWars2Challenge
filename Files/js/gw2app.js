@@ -159,15 +159,11 @@ GW2App = {
 		
 		$.getJSON(myUrl, function(response) {
 			// If only one page, then go ahead with creating the list
-			if (response.success) {
-				for(var i = 0; i < response.results.length; i++) {
-					var itemID = response.results[i].data_id;
-					itemQuery += itemID + ","
-				}
-				self.getItemInfoAndPrices(itemQuery, response.page, response.last_page, callback);
-			} else {
-				callback(new Error(response.error));
+			for(var i = 0; i < response.results.length; i++) {
+				var itemID = response.results[i].data_id;
+				itemQuery += itemID + ","
 			}
+			self.getItemInfoAndPrices(itemQuery, response.page, response.last_page, callback);
 		});
 	},
 	
@@ -191,9 +187,7 @@ GW2App = {
 							var item = items[price.id];
 							item.price = price;
 							
-							if(UrlExists(item.icon)) {
-								responseItemList.push(item);
-							}
+							responseItemList.push(item);
 						}
 						
 						callback(new Response(new ResultList(responseItemList, currentPage, lastPage)));

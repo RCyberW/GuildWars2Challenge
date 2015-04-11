@@ -305,17 +305,38 @@ tbody td {
 }
 
 .item-icon {
-	border:2px solid black;
 	width:26px;
 	height:26px;
 }
 
-.fine-border { border-color: #62A4DA; }
-.masterwork-border { border-color: #1A9306; }
-.rare-border { border-color: #FCD00B; }
-.exotic-border { border-color: #FFA405; }
-.ascended-border { border-color: #FB3E8D; }
-.legendary-border { border-color: #4C139D; }
+.Basic-border {
+	border:2px solid black;
+}
+
+.Fine-border { 
+	border:2px solid black;
+	border-color: #62A4DA; 
+}
+.Masterwork-border { 
+	border:2px solid black;
+	border-color: #1A9306; 
+}
+.Rare-border { 
+	border:2px solid black;
+	border-color: #FCD00B; 
+}
+.Exotic-border { 
+	border:2px solid black;
+	border-color: #FFA405; 
+}
+.Ascended-border { 
+	border:2px solid black;
+	border-color: #FB3E8D; 
+}
+.Legendary-border { 
+	border:2px solid black;
+	border-color: #4C139D; 
+}
 
 /*=====================
 	ALARM PAGE
