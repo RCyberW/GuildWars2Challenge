@@ -384,3 +384,19 @@ tbody td {
 	margin:8vw 5vw 0 0;
 	float:right;
 }
+
+/*=====================
+	MENMO PAGE
+=====================*/
+
+#memo-window {
+	display:none;
+	position:absolute;
+	width:51.5vw;
+	top:10vw;
+	left:18vw;
+	border:5px solid rgb(47, 20, 9);
+	background-color:rgba(255, 255, 255, .6);
+	border-radius:15px;
+	padding:3vw;
+}

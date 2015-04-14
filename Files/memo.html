@@ -1,17 +1,15 @@
 <div id="newNotesContainer">
 	<input type="text" id="memoField" placeholder="Enter Memo"/>
-	<select id="noteTypeField">
-		<option value="General">General</option>
-		<option value="Events">Events</option>
-		<option value="Dungeon">Dungeon</option>
-		<option value="Guild">Guild</option>
-		<option value="Exploration">Exploration</option>
-		<option value="PvP">PvP</option>
-		<option value="WvW">WvW</option>
-	</select>
+	<select id="noteTypeField"></select>
 	<div class="generic-button" id="addMemoButton">Done</div>
 </div>
 <br>
+<div id="memo-window">
+	<div class="close-button" onclick="closeMemoWindow()">X</div>
+	<input type="text" id="editMemoField" placeholder="Enter Memo"/>
+	<select id="editNoteTypeField"></select>
+	<div class="generic-button" id="editMemoButton">Done</div>
+</div>
 <div>
 	<div>My memos:</div>
 	<table>
@@ -27,20 +25,50 @@
 		</tbody>
 	</table>
 </div>
-
+<script src="js/gw2app.js"></script>
 <script type="text/javascript">
 
+	var categoryOptions = [
+		'General', 'Events', 'Dungeon', 'Guild', 'Exploration', 'PvP', 'WvW'
+	];
+	categoryOptions.forEach(function(category) {
+		$('#noteTypeField').append('<option value="' + category + '">' + category + '</option>'); 
+		$('#editNoteTypeField').append('<option value="' + category + '">' + category + '</option>'); 
+	});
+	
+	
 	updateMemoList();
 	
+	// add a memo
 	$("#addMemoButton").click(function() {
 		var message = $("#memoField").val();
 		if (message.length > 0) {
 			var type = $("#noteTypeField").val();
 			GW2App.createMemo(0, message, type);
 			$("#memoField").val("");
+			$("#noteTypeField").val(categoryOptions[0]);
 			updateMemoList();
 		}
 	});
+
+	// edit a memo
+	$("#editMemoButton").click(function() {
+		var memo = $('#memo-window').data('memo');
+		var message = $("#editMemoField").val();
+		if (message.length > 0) {
+			var type = $("#editNoteTypeField").val();
+			memo.message = message;
+			memo.type = type;
+			$("#editMemoField").val("");
+			updateMemoList();
+			closeMemoWindow();
+		}
+	});
+	
+	function closeMemoWindow() {
+		$('#memo-window').fadeOut(200);
+		$('#editMemoField').val("");
+	}
 	
 	// re-draws the memo list in the table
 	function updateMemoList() {
@@ -53,7 +81,12 @@
 				"</tr>");
 			
 			var editButton = $("<button>Edit</button>");
-			editButton.click(function() {});
+			editButton.click(function() {
+				$('#memo-window').data('memo', memo);	// currently editing memo
+				$('#memo-window').fadeIn(200);
+				$('#editMemoField').val(memo.message);
+				$('#editNoteTypeField').val(memo.type);
+			});
 			
 			var deleteButton = $("<button>Delete</button>");
 			deleteButton.click(function() {
