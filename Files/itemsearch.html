@@ -14,10 +14,10 @@
 <table id="saved-items-headers">
 	<thead>
 		<tr>
-			<th width='90px'>Item</th>
-			<th width='80px'>Current Buy</th>
-			<th width='80px'>Current Sell</th>
-			<th>Action</th>
+			<th width='165px' style='background-color:rgb(192,192,192);'>Item</th>
+			<th width='50px'>Buy</th>
+			<th width='50px' style='background-color:rgb(192,192,192);'>Sell</th>
+			<th width='10px'/>
 		</tr>
 	</thead>
 </table>
@@ -89,10 +89,10 @@ function createMainListRow(item) {
 	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
 	var newRow = "<tr id=" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
-			"<td>" + item.name + "</td>" + 
-			"<td width='150px'>" + buyPrice + "</td>" + 
-			"<td width='150px'>" + soldPrice + "</td>" + 
-			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>remove</div></td>" + 
+			"<td width='150px'>" + item.name + "</td>" + 
+			"<td width='50px'>" + buyPrice + "</td>" + 
+			"<td width='50px'>" + soldPrice + "</td>" + 
+			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#saved-items tbody').append(newRow);
 	return newRow;
@@ -105,7 +105,7 @@ function appendRowToSearchResult(item) {
 			"<tr>" + 
 			"<td width='30px'><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td>" + item.name + "</td>" + 
-			"<td width='75px'><div class='generic-button' id='generic_btn_id_" + item.id + "'>Add</div></td>" + 
+			"<td width='75px'><div class='generic-button' id='generic_btn_id_" + item.id + "'>+</div></td>" + 
 			"</tr>");
 	
 	$("#generic_btn_id_" + item.id).click(function() {
@@ -135,12 +135,12 @@ function convertPriceToReadablePrice(price) {
 	var retString = "";
 	
 	if (gold > 0) {
-		retString += parseInt(gold) + " G ";
+		retString += parseInt(gold) + "<img src='https://render.guildwars2.com/file/090A980A96D39FD36FBB004903644C6DBEFB1FFB/156904.png' class='coin-size'>";
 	} 
 	if (gold > 0 || silver > 0) {
-		retString += parseInt(silver) + " S ";
+		retString += parseInt(silver) + "<img src='https://render.guildwars2.com/file/E5A2197D78ECE4AE0349C8B3710D033D22DB0DA6/156907.png' class='coin-size'>";
 	} 
-	retString += parseInt(copper) + " C";
+	retString += parseInt(copper) + "<img src='https://render.guildwars2.com/file/6CF8F96A3299CFC75D5CC90617C3C70331A1EF0E/156902.png' class='coin-size'>";
 	
 	return retString;
 }
