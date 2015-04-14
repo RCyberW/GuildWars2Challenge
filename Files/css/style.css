@@ -95,6 +95,7 @@ tr {
 
 tbody td {
 	padding:1.5vw 1.5vw;
+	text-align:center;
 }
 
 #wrapper {
@@ -238,10 +239,6 @@ tbody td {
 	width:65vw;
 }
 
-#search-results .generic-button {
-	padding:1vw 2vw;
-}
-
 #search-field {
 	margin:3vw 0;
 }
@@ -256,7 +253,7 @@ tbody td {
 
 .generic-button {
 	border-radius:10px;
-	padding:2vw 4vw;
+	padding:1vw 2vw;
 	margin:0 auto 5px auto;
 	display:inline-block;
 	color:#DDD;
@@ -288,7 +285,7 @@ tbody td {
 #saved-window {
 	margin:1vw auto 0 auto;
 	max-height:65vw;
-	overflow:auto;
+	overflow-y:scroll;
 	padding:1vw;
 }
 
@@ -305,36 +302,31 @@ tbody td {
 }
 
 .item-icon {
-	width:26px;
-	height:26px;
+	width:30px;
+	height:30px;
+	vertical-align:middle;
+	border:3px double black;
 }
 
 .Basic-border {
-	border:2px solid black;
 }
 
 .Fine-border { 
-	border:2px solid black;
 	border-color: #62A4DA; 
 }
 .Masterwork-border { 
-	border:2px solid black;
 	border-color: #1A9306; 
 }
 .Rare-border { 
-	border:2px solid black;
 	border-color: #FCD00B; 
 }
 .Exotic-border { 
-	border:2px solid black;
 	border-color: #FFA405; 
 }
 .Ascended-border { 
-	border:2px solid black;
 	border-color: #FB3E8D; 
 }
 .Legendary-border { 
-	border:2px solid black;
 	border-color: #4C139D; 
 }
 
@@ -355,7 +347,7 @@ tbody td {
 
 #local-time h2, #server-time h2{
 	text-decoration:underline;
-	font-size:25px;
+	font-size:15px;
 	margin-bottom:1vw;
 }
 
