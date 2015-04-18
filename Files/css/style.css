@@ -86,7 +86,7 @@ table {
 th{
 	font-weight:bold;
 	text-align:center;
-	padding:1.5vw 1.5vw;
+	padding:1.5vw 10px;
 }
 
 tr {
@@ -94,7 +94,7 @@ tr {
 }
 
 tbody td {
-	padding:1.5vw 1.5vw;
+	padding:1.5vw 10px;
 	text-align:center;
 }
 
@@ -104,7 +104,7 @@ tbody td {
 	width:96vw;
 	height:99vw;
 	border-radius:.75vw;
-	padding:1vw 2vw;
+	padding:1vw 2vw 1vw 1vw;
 }
 
 #main-content {
@@ -122,7 +122,7 @@ tbody td {
 	display:none;
 	width:90.5vw;
 	height:88vw;
-	overflow:auto;
+	overflow:hidden;
 }
 
 ::-webkit-scrollbar {
@@ -221,7 +221,7 @@ tbody td {
 	display:none;
 	position:absolute;
 	width:67vw;
-	top:22vw;
+	top:24vw;
 	left:10.5vw;
 	border:5px solid rgb(47, 20, 9);
 	background-color:rgba(255, 255, 255, .8);
@@ -279,7 +279,8 @@ tbody td {
 }
 
 #saved-items-headers {
-	width:97%;
+	width:383px;
+	margin:auto;
 }
 
 #saved-window {
@@ -301,7 +302,14 @@ tbody td {
 	background-color:rgb(255,255,255);
 }
 
+#saved-items .buy-sell-box {
+	width:50px;
+	text-align:right;
+	line-height:15px;
+}
+
 .coin-size {
+	margin-left:5px;
 	width:15px;
 	height:15px;
 }
@@ -399,4 +407,12 @@ tbody td {
 	background-color:rgba(255, 255, 255, .6);
 	border-radius:15px;
 	padding:3vw;
+}
+
+#newNotesContainer {
+	padding:10px 0;
+}
+
+#newNotesContainer * {
+	margin:0 5px;
 }

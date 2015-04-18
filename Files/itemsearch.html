@@ -1,5 +1,6 @@
 <div id="search-window">
 	<div class="close-button" onclick="closeSearchResults()">X</div>
+	<p class="message"></p>
 	<div id="search-results">
 		<table>
 			<tbody></tbody>
@@ -14,10 +15,10 @@
 <table id="saved-items-headers">
 	<thead>
 		<tr>
-			<th width='165px' style='background-color:rgb(192,192,192);'>Item</th>
-			<th width='50px'>Buy</th>
-			<th width='50px' style='background-color:rgb(192,192,192);'>Sell</th>
-			<th width='10px'/>
+			<th width='106px' style='background-color:rgb(192,192,192);'>Item</th>
+			<th width='20px'>Buy</th>
+			<th width='20px' style='background-color:rgb(192,192,192);'>Sell</th>
+			<th width='30px'></th>
 		</tr>
 	</thead>
 </table>
@@ -36,6 +37,7 @@
 // click the search button
 $("#searchButton").click(function() {
 	searchTerm = $("#search-field-item").val();
+	openSearchResults();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
 		$("#search-field-item").val('');
 		handleItems(response);
@@ -43,6 +45,8 @@ $("#searchButton").click(function() {
 });
 
 function openSearchResults() {
+	$("#search-results tbody").empty();
+	$('#search-window .message').html('Loading...');
 	$('#search-window').fadeIn(200);
 }
 
@@ -68,8 +72,7 @@ function handleItems(response) {
 				}
 			});
 		} else {
-			$("#search-results tbody").empty();
-			openSearchResults();
+			$('#search-window .message').html('');
 			var pageCount = response.data.lastPage;
 			var currentPage = response.data.currentPage;
 			// Display all the results and ask the users to add them by clicking on "add" button
@@ -90,8 +93,8 @@ function createMainListRow(item) {
 	var newRow = "<tr id=" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td width='150px'>" + item.name + "</td>" + 
-			"<td width='50px'>" + buyPrice + "</td>" + 
-			"<td width='50px'>" + soldPrice + "</td>" + 
+			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
+			"<td class='buy-sell-box'>" + soldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#saved-items tbody').append(newRow);
@@ -137,9 +140,11 @@ function convertPriceToReadablePrice(price) {
 	if (gold > 0) {
 		retString += parseInt(gold) + "<img src='https://render.guildwars2.com/file/090A980A96D39FD36FBB004903644C6DBEFB1FFB/156904.png' class='coin-size'>";
 	} 
+	retString += '<br>';
 	if (gold > 0 || silver > 0) {
 		retString += parseInt(silver) + "<img src='https://render.guildwars2.com/file/E5A2197D78ECE4AE0349C8B3710D033D22DB0DA6/156907.png' class='coin-size'>";
 	} 
+	retString += '<br>';
 	retString += parseInt(copper) + "<img src='https://render.guildwars2.com/file/6CF8F96A3299CFC75D5CC90617C3C70331A1EF0E/156902.png' class='coin-size'>";
 	
 	return retString;
