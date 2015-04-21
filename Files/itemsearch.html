@@ -98,6 +98,8 @@ function createMainListRow(item) {
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#saved-items tbody').append(newRow);
+	
+	GW2App.createWatchItem(item.id, 0, true);
 	return newRow;
 }
 
@@ -114,7 +116,6 @@ function appendRowToSearchResult(item) {
 	$("#generic_btn_id_" + item.id).click(function() {
 		$(this).parent().parent().remove();
 		createMainListRow(item);
-		GW2App.createWatchItem(item.id, 0, true);
 	});
 }
 
