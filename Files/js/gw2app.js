@@ -4,8 +4,11 @@ GW2App = {
 	// CONSTANTS
 	INTERVAL_PER_UPDATE: 1,
 	MILLISECONDS: 1000,
+	
 	pricev2JSON: "https://api.guildwars2.com/v2/commerce/prices",
 	itemv2JSON: "https://api.guildwars2.com/v2/items",
+	iconv2JSON: "https://api.guildwars2.com/v2/files",
+	
 	gw2spidySearchJSON: "http://www.gw2spidy.com/api/v0.9/json/item-search/",
 	
 	rarityLevel: ["basic", "fine", "masterwork", "rare", "exotic", "ascended", "legendary"],	
@@ -14,7 +17,7 @@ GW2App = {
 	
 	itemDictionary: {},
 	// We would need to store a map of item that the user want an update for to a price that they define - item-id to WatchItem
-	watchList: [],
+	watchList: {},
 	// Store the result of each auto update for future use - probably don't need
 	// listOfUpdates: [],
 	// Create a list of user specified alarm
@@ -25,7 +28,14 @@ GW2App = {
 	watchItemListeners: [],
 	// Listener for when alarm is ringing
 	alarmListeners: [],
+	
+	watchBuyList:[],
+	watchSellList:[],
 
+	goldIcon: "",
+	silverIcon: "",
+	copperIcon: "",
+	
 	// calls the update function at every time interval
 	beginAutoRefresh : function() {
 		if (!this.autoUpdating) { // so we don't call it multiple times
@@ -34,6 +44,23 @@ GW2App = {
 		}
 	},
 
+	getIcons : function() {
+		$.getJSON(iconv2JSON + "?id=ui_coin_gold", function(response) {
+			// If only one page, then go ahead with creating the list
+			goldIcon = response.icon;
+		});
+		
+		$.getJSON(iconv2JSON + "?id=ui_coin_silver", function(response) {
+			// If only one page, then go ahead with creating the list
+			silverIcon = response.icon;
+		});
+		
+		$.getJSON(iconv2JSON + "?id=ui_coin_copper", function(response) {
+			// If only one page, then go ahead with creating the list
+			copperIcon = response.icon;
+		});
+	},
+	
 	// checks the conditions for watch list and alarms
 	refresh : function() {
 		var self = GW2App;
@@ -111,13 +138,13 @@ GW2App = {
 		// Internally when we store this to the map, we can store the itemID for ease of access later
 		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor,amount,isGreaterThan);
 		
-		/* var watchListItems = "";
+		var watchListItems = "";
 		
-		for (var i = 0; i < this.watchList.length; i++) {
-			watchListItems += this.watchList[i].itemToWatchOutFor + ", ";
-		}
+		$.each(this.watchList, function(key, value) {
+			watchListItems += key + ",";
+		});
 		
-		saveToLocalStorage("watchList", watchListItems); */
+		this.saveToLocalStorage("watchList", watchListItems);
 	},
 	
 	// - specify the item that the user want to remove
@@ -169,6 +196,8 @@ GW2App = {
 	
 	// returns info and prices from the GW2 API for specified itemIds
 	getItemInfoAndPrices : function(itemIds, currentPage, lastPage, callback) {
+	// TODO need to find a way to re-load the watchList using this method
+	
 		var self = GW2App;
 		self.getItemInfo(itemIds, function(infoResult) {
 			if (infoResult.success) { 
@@ -272,12 +301,17 @@ GW2App = {
 	// key - the key
 	// value - the value
 	saveToLocalStorage : function(key, value) {
-		localStorage.setItem(key, value);
+		localStorage.setItem(key, JSON.stringify(value));
+		
+		var checkValue = localStorage.getItem(key);
+		if (checkValue == null) {
+			console.log("Something is wrong");
+		}
 	},
 	
-	
-	getFromLocalStorage : function(key, callback) {
+	getFromLocalStorage : function(key, restoreList) {
 		var value = localStorage.getItem(key);
+		restoreList = JSON.parse(value);
 	}
 };
 
