@@ -45,6 +45,7 @@ GW2App = {
 	},
 
 	getIcons : function() {
+	//TODO convert this to static images
 		$.getJSON(iconv2JSON + "?id=ui_coin_gold", function(response) {
 			// If only one page, then go ahead with creating the list
 			goldIcon = response.icon;
@@ -144,7 +145,7 @@ GW2App = {
 			watchListItems += key + ",";
 		});
 		
-		this.saveToLocalStorage("watchList", watchListItems);
+		this.saveToLocalStorage("WatchList", watchListItems);
 	},
 	
 	// - specify the item that the user want to remove
@@ -301,7 +302,8 @@ GW2App = {
 	// key - the key
 	// value - the value
 	saveToLocalStorage : function(key, value) {
-		localStorage.setItem(key, JSON.stringify(value));
+		value = value.substring(0, value.length - 1);
+		localStorage.setItem(key, value);
 		
 		var checkValue = localStorage.getItem(key);
 		if (checkValue == null) {
@@ -311,7 +313,8 @@ GW2App = {
 	
 	getFromLocalStorage : function(key, restoreList) {
 		var value = localStorage.getItem(key);
-		restoreList = JSON.parse(value);
+		// var returnlist = JSON.parse(value);
+		return value;
 	}
 };
 

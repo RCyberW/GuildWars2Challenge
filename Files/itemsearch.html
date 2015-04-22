@@ -34,6 +34,20 @@
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script>
 
+$(document).ready(function() {  
+    // Display the loader logic
+	var storedItemList = GW2App.getFromLocalStorage("WatchList", storedItemList);
+	
+	GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
+		response.data.currentList.forEach(function(item) {
+			if (item != null) {
+				// Display and hide the search window
+				createMainListRow(item);
+			}
+		});
+	});
+});
+
 // click the search button
 $("#searchButton").click(function() {
 	searchTerm = $("#search-field-item").val();
