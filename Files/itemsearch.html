@@ -1,5 +1,5 @@
 <div id="search-window">
-	<div class="close-button" onclick="closeSearchResults()">X</div>
+	<div class="close-button" onclick="Utility.closeSearchResults()">X</div>
 	<p class="message"></p>
 	<div id="search-results">
 		<table>
@@ -31,6 +31,7 @@
 </div>
 
 <script src="js/gw2app.js"></script>
+<script src="js/utility.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
 <script>
 
@@ -64,10 +65,6 @@ function openSearchResults() {
 	$("#search-results tbody").empty();
 	$('#search-window .message').html('Loading...');
 	$('#search-window').fadeIn(200);
-}
-
-function closeSearchResults() {
-	$('#search-window').fadeOut(200);
 }
 
 // Parse and handle item detail response
@@ -104,8 +101,8 @@ function handleItems(response) {
 
 // Create a new row using the selected properties
 function createMainListRow(item) {
-	var buyPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
-	var soldPrice = convertPriceToReadablePrice(item.price.sells.unit_price);
+	var buyPrice = GW2App.convertPriceToReadablePrice(item.price.buys.unit_price);
+	var soldPrice = GW2App.convertPriceToReadablePrice(item.price.sells.unit_price);
 	var newRow = "<tr id=" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td width='150px'>" + item.name + "</td>" + 
@@ -133,43 +130,5 @@ function appendRowToSearchResult(item) {
 		$(this).parent().parent().remove();
 		createMainListRow(item);
 	});
-}
-
-function loadSavedContent() {
-	GW2App.getItemInfo(GW2App.watchList, function(response) {
-		response.data.currentList.forEach(function(item) {
-			if (item != null) {
-				// Display and show the list of results
-				createMainListRow(item);
-			}
-		});
-	});
-}
-
-// Convert price to a human readable value
-function convertPriceToReadablePrice(price) {
-	var copper = price % 100;
-	var silver = price/100 % 100;
-	var gold = price/10000;
-	
-	var retString = "";
-	
-	if (gold > 0) {
-		retString += parseInt(gold) + "<img src='https://render.guildwars2.com/file/090A980A96D39FD36FBB004903644C6DBEFB1FFB/156904.png' class='coin-size'>";
-	} 
-	retString += '<br>';
-	if (gold > 0 || silver > 0) {
-		retString += parseInt(silver) + "<img src='https://render.guildwars2.com/file/E5A2197D78ECE4AE0349C8B3710D033D22DB0DA6/156907.png' class='coin-size'>";
-	} 
-	retString += '<br>';
-	retString += parseInt(copper) + "<img src='https://render.guildwars2.com/file/6CF8F96A3299CFC75D5CC90617C3C70331A1EF0E/156902.png' class='coin-size'>";
-	
-	return retString;
-}
-
-// Remove the selected row
-function removeRow(rowID) {
-	// Remove item from watchlist
-	$("#" + rowID).remove();
 }
 </script>

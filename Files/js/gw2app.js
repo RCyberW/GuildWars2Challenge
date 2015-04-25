@@ -18,6 +18,7 @@ GW2App = {
 	itemDictionary: {},
 	// We would need to store a map of item that the user want an update for to a price that they define - item-id to WatchItem
 	watchList: {},
+	investmentList: {},
 	// Store the result of each auto update for future use - probably don't need
 	// listOfUpdates: [],
 	// Create a list of user specified alarm
@@ -315,6 +316,27 @@ GW2App = {
 		var value = localStorage.getItem(key);
 		// var returnlist = JSON.parse(value);
 		return value;
+	},
+	
+	// Convert price to a human readable value
+	convertPriceToReadablePrice : function(price) {
+		var copper = price % 100;
+		var silver = price/100 % 100;
+		var gold = price/10000;
+		
+		var retString = "";
+		
+		if (gold > 0) {
+			retString += parseInt(gold) + "<img src='https://render.guildwars2.com/file/090A980A96D39FD36FBB004903644C6DBEFB1FFB/156904.png' class='coin-size'>";
+		} 
+		retString += '<br>';
+		if (gold > 0 || silver > 0) {
+			retString += parseInt(silver) + "<img src='https://render.guildwars2.com/file/E5A2197D78ECE4AE0349C8B3710D033D22DB0DA6/156907.png' class='coin-size'>";
+		} 
+		retString += '<br>';
+		retString += parseInt(copper) + "<img src='https://render.guildwars2.com/file/6CF8F96A3299CFC75D5CC90617C3C70331A1EF0E/156902.png' class='coin-size'>";
+		
+		return retString;
 	}
 };
 
@@ -396,11 +418,3 @@ GW2App.testMe = function() {
 	// getting all da items...
 	//GW2App.getAllItems(function(response) { console.log(response); });
 }; 
-
-
-function UrlExists(url) {
-    var http = new XMLHttpRequest();
-    http.open('HEAD', url, false);
-    http.send();
-    return http.status!=404;
-}
