@@ -1,0 +1,197 @@
+<div id="search-window">
+	<div class="close-button" onclick="closeSearchResults()">X</div>
+	<p class="message"></p>
+	<div id="search-results">
+		<table>
+			<tbody></tbody>
+		</table>
+	</div>
+</div>
+<div id="search-field">
+	<input type="text" id="search-field-item" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
+	<div id="searchButton" class="generic-button">Search</div>
+</div>
+<div id="result-field">
+<table id="saved-items-headers">
+	<thead>
+		<tr>
+			<th width='106px' style='background-color:rgb(192,192,192);'>Item</th>
+			<th width='20px'>Bought</th>
+			<th width='20px'>Amount</th>
+			<th width='20px' style='background-color:rgb(192,192,192);'>Market Offer</th>
+			<th width='20px'>Gain</th>
+			<th width='30px'></th>
+		</tr>
+	</thead>
+</table>
+</div>
+
+<div id="saved-window">
+	<table id="saved-items">
+		<tbody></tbody>
+	</table>
+</div>
+
+<script src="js/gw2app.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+<script>
+
+$(document).ready(function() {  
+    // Display the loader logic
+	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList);
+	
+	GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
+		response.data.currentList.forEach(function(item) {
+			if (item != null) {
+				// Display and hide the search window
+				createMainListRow(item);
+			}
+		});
+	});
+});
+
+// click the search button
+$("#searchButton").click(function() {
+	searchTerm = $("#search-field-item").val();
+	openSearchResults();
+	GW2App.getItemIDByName(searchTerm, "1", function(response) {
+		$("#search-field-item").val('');
+		handleItems(response);
+	});
+});
+
+function openSearchResults() {
+	$("#search-results tbody").empty();
+	$('#search-window .message').html('Loading...');
+	$('#search-window').fadeIn(200);
+}
+
+function closeSearchResults() {
+	$('#search-window').fadeOut(200);
+}
+
+// Parse and handle item detail response
+function handleItems(response) {
+	if (!response.success) { 
+		// Failed response
+		// Display error message notifying something went wrong
+		$("#search-window").append("Cannot find item");
+		debug("Error from GW2 API: " + response.errorMsg);
+	} else { 
+		// Reload price table
+		if (response.data.currentList.length == 1) {		
+			// If there is only one result, add the result to the watch list
+			response.data.currentList.forEach(function(item) {
+				if (item != null) {
+					// Display and hide the search window
+					createMainListRow(item);
+				}
+			});
+		} else {
+			$('#search-window .message').html('');
+			var pageCount = response.data.lastPage;
+			var currentPage = response.data.currentPage;
+			// Display all the results and ask the users to add them by clicking on "add" button
+			response.data.currentList.forEach(function(item) {
+				if (item != null) {
+					// Display and show the list of results
+					appendRowToSearchResult(item);
+				}
+			});
+		}
+	}
+}
+
+// Create a new row using the selected properties
+function createMainListRow(item) {
+	// TODO: Once the user finds the item he invested in, ask the user to input the amount he bought for and the number he bought
+	// Before he sees the result in the table, ask for the number of unit he bought and prices at which each unit costed
+	
+	// This will be how much the amount per unit bought
+	// User will input in the format of xx G yy S zz C
+	// We will translated this to xxyyzz format to compare with the API
+	var buy = 1; 
+	var buyPrice = convertPriceToReadablePrice(buy);
+	// This will be how many unit the user bought
+	var amount = 1;
+	// What we suggest the user to sell the item at to break even
+	// (price sell at) >= buyPrice/0.85
+	// fee = suggestedPrice * 0.15
+	// suggestedPrice = buyPrice + fee
+	var suggestedPrice = buy/(0.85);
+	
+	// This will be how much the current market price is
+	var marketPrice = convertPriceToReadablePrice(item.price.buys.unit_price);
+	// Total profit for the user
+	var yield = (item.price.buys.unit_price - suggestedPrice) * amount;
+	var yieldPrice = convertPriceToReadablePrice(yield);
+	
+	var newRow = "<tr id=" + item.id + ">" + 
+			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
+			"<td width='150px'>" + item.name + "</td>" + 
+			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
+			"<td class='buy-sell-box'>" + amount + "</td>" +
+			"<td class='buy-sell-box'>" + marketPrice + "</td>" + 
+			"<td class='buy-sell-box'>" + yield + "</td>" + 
+			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
+			"</tr>";
+	$('#saved-items tbody').append(newRow);
+	
+	GW2App.createWatchItem(item.id, suggestedPrice, true);
+	return newRow;
+}
+
+// Create a new row in the search result list
+function appendRowToSearchResult(item) {
+	// Create new row in the main result list	
+	$("#search-results tbody").append(
+			"<tr>" + 
+			"<td width='30px'><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
+			"<td>" + item.name + "</td>" + 
+			"<td width='75px'><div class='generic-button' id='generic_btn_id_" + item.id + "'>+</div></td>" + 
+			"</tr>");
+	
+	$("#generic_btn_id_" + item.id).click(function() {
+		$(this).parent().parent().remove();
+		createMainListRow(item);
+	});
+}
+
+function loadSavedContent() {
+	GW2App.getItemInfo(GW2App.watchList, function(response) {
+		response.data.currentList.forEach(function(item) {
+			if (item != null) {
+				// Display and show the list of results
+				createMainListRow(item);
+			}
+		});
+	});
+}
+
+// Convert price to a human readable value
+function convertPriceToReadablePrice(price) {
+	var copper = price % 100;
+	var silver = price/100 % 100;
+	var gold = price/10000;
+	
+	var retString = "";
+	
+	if (gold > 0) {
+		retString += parseInt(gold) + "<img src='https://render.guildwars2.com/file/090A980A96D39FD36FBB004903644C6DBEFB1FFB/156904.png' class='coin-size'>";
+	} 
+	retString += '<br>';
+	if (gold > 0 || silver > 0) {
+		retString += parseInt(silver) + "<img src='https://render.guildwars2.com/file/E5A2197D78ECE4AE0349C8B3710D033D22DB0DA6/156907.png' class='coin-size'>";
+	} 
+	retString += '<br>';
+	retString += parseInt(copper) + "<img src='https://render.guildwars2.com/file/6CF8F96A3299CFC75D5CC90617C3C70331A1EF0E/156902.png' class='coin-size'>";
+	
+	return retString;
+}
+
+// Remove the selected row
+function removeRow(rowID) {
+	// Remove item from watchlist
+	$("#" + rowID).remove();
+}
+</script>
