@@ -51,6 +51,8 @@ $(document).ready(function() {
 // click the search button
 $("#searchButton").click(function() {
 	searchTerm = $("#search-field-item").val();
+	if(!searchTerm)
+		return;
 	openSearchResults();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
 		$("#search-field-item").val('');

@@ -360,8 +360,13 @@ tbody td {
 
 #local-time h2, #server-time h2{
 	text-decoration:underline;
-	font-size:15px;
+	font-size:3vw;
 	margin-bottom:1vw;
+}
+
+#local-time p, #server-time p {
+	font-size:5vw;
+	margin-top:1.5vw;
 }
 
 #alarm-window {

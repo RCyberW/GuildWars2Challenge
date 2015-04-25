@@ -1,5 +1,5 @@
-<div id="local-time"><h2>Local Time</h2><p>do $('#local-time p').html() here</p></div>
-<div id="server-time"><h2>Server Time</h2><p>do $('#server-time p').html() here</p></div>
+<div id="local-time"><h2>Local Time</h2><p></p></div>
+<div id="server-time"><h2>Server Time</h2><p>wee</p></div>
 
 <div id="alarm-window">
 	<div class="close-button" onclick="closeAlarmMenu()">X</div>
@@ -26,5 +26,22 @@
 	function closeAlarmMenu() {
 		$('#alarm-window').fadeOut(200);
 		$('#alarms').fadeIn(200);
+	}
+	
+	localTime();
+	function localTime() {
+		var today = new Date();
+		var h=today.getHours();
+		var m = today.getMinutes();
+		var s = today.getSeconds();
+		m = checkTime(m);
+		s = checkTime(s);
+		$('#local-time p').html(h+":"+m+":"+s);
+		var t = setTimeout(function(){localTime()},500);
+	}
+
+	function checkTime(i) {
+		if (i<10) {i = "0" + i};  // add zero in front of numbers < 10
+		return i;
 	}
 </script>
