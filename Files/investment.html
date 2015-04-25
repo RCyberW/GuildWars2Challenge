@@ -1,18 +1,18 @@
-<div id="search-window">
+<div id="investment-search-window">
 	<div class="close-button" onclick="closeSearchResults()">X</div>
 	<p class="message"></p>
-	<div id="search-results">
+	<div id="investment-search-results">
 		<table>
 			<tbody></tbody>
 		</table>
 	</div>
 </div>
-<div id="search-field">
-	<input type="text" id="search-field-item" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#searchButton').trigger('click'); };">
-	<div id="searchButton" class="generic-button">Search</div>
+<div id="investment-search-field">
+	<input type="text" id="investment-search-field-item" placeholder="Item Name..." onkeydown="if(event.keyCode == 13) { $('#investment-searchButton').trigger('click'); };">
+	<div id="investment-searchButton" class="generic-button">Search</div>
 </div>
-<div id="result-field">
-<table id="saved-items-headers">
+<div id="investment-result-field">
+<table id="investment-saved-items-headers">
 	<thead>
 		<tr>
 			<th width='106px' style='background-color:rgb(192,192,192);'>Item</th>
@@ -26,7 +26,7 @@
 </table>
 </div>
 
-<div id="saved-window">
+<div id="investment-saved-window">
 	<table id="saved-items">
 		<tbody></tbody>
 	</table>
@@ -51,8 +51,8 @@ $(document).ready(function() {
 });
 
 // click the search button
-$("#searchButton").click(function() {
-	searchTerm = $("#search-field-item").val();
+$("#investment-searchButton").click(function() {
+	searchTerm = $("#investment-search-field-item").val();
 	openSearchResults();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
 		$("#search-field-item").val('');
@@ -61,13 +61,13 @@ $("#searchButton").click(function() {
 });
 
 function openSearchResults() {
-	$("#search-results tbody").empty();
-	$('#search-window .message').html('Loading...');
-	$('#search-window').fadeIn(200);
+	$("#investment-search-results tbody").empty();
+	$('#investment-search-window .message').html('Loading...');
+	$('#investment-search-window').fadeIn(200);
 }
 
 function closeSearchResults() {
-	$('#search-window').fadeOut(200);
+	$('#investment-search-window').fadeOut(200);
 }
 
 // Parse and handle item detail response
@@ -75,7 +75,7 @@ function handleItems(response) {
 	if (!response.success) { 
 		// Failed response
 		// Display error message notifying something went wrong
-		$("#search-window").append("Cannot find item");
+		$("#investment-search-window").append("Cannot find item");
 		debug("Error from GW2 API: " + response.errorMsg);
 	} else { 
 		// Reload price table
@@ -88,7 +88,7 @@ function handleItems(response) {
 				}
 			});
 		} else {
-			$('#search-window .message').html('');
+			$('#investment-search-window .message').html('');
 			var pageCount = response.data.lastPage;
 			var currentPage = response.data.currentPage;
 			// Display all the results and ask the users to add them by clicking on "add" button
@@ -135,7 +135,7 @@ function createMainListRow(item) {
 			"<td class='buy-sell-box'>" + yield + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
 			"</tr>";
-	$('#saved-items tbody').append(newRow);
+	$('#investment-saved-items tbody').append(newRow);
 	
 	GW2App.createWatchItem(item.id, suggestedPrice, true);
 	return newRow;
@@ -144,7 +144,7 @@ function createMainListRow(item) {
 // Create a new row in the search result list
 function appendRowToSearchResult(item) {
 	// Create new row in the main result list	
-	$("#search-results tbody").append(
+	$("#investment-search-results tbody").append(
 			"<tr>" + 
 			"<td width='30px'><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td>" + item.name + "</td>" + 

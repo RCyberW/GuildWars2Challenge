@@ -17,7 +17,7 @@
 				"file":"Files/index.html",
 				"transparent":true,
 				"resizable":false,
-				"size":{"width":500, "height":625}
+				"min_size":{"width":500, "height":625}
 			}
 		}
 	}
