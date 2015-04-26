@@ -7,6 +7,9 @@
 		<script src="js/jquery-1.11.2.min.js"></script>
         <script>
 			$(document).ready(function() {
+			
+				$('#app-title').hide();
+				
 				$('#top-bar li').each(function() {
 					$('#main-content').append('<div id="' + $(this).html().replace(/ /g, '_') + '-page" class="content-page"></div>');
 					$('#' + $(this).html().replace(/ /g, '_') + '-page').load($(this).html().replace(/ /g, '').toLowerCase() + '.html');
@@ -44,6 +47,21 @@
 					$('html').css('opacity', 1);
 			}
 			
+			var minimized = false;
+			function minimizeWindow() {
+				if (minimized) {
+					$('#tabs').show();
+					$('#app-title').hide();
+					$('html').css('height', '100%');
+					minimized = false;
+				} else {
+					$('#tabs').hide();
+					$('#app-title').show();
+					$('html').css('height', '5.5vw');
+					minimized = true;
+				}
+			}
+			
 			function debug(string) {
 				$('#debug-menu').append(string + '<br>');
 				$('#debug-menu').scrollTop($('#debug-menu').prop('scrollHeight'));
@@ -76,12 +94,14 @@
     <body>
 		<div id="wrapper">
 			<div id="top-bar" onmousedown="dragMove();">
-				<ul>
+				<div id="app-title">Awesome Time</div>
+				<ul id="tabs">
 					<li data-bgPosition="top right">Item Search</li>
 					<li data-bgPosition="top right">Investment</li>
 					<li data-bgPosition="center">Alarm</li>
 					<li data-bgPosition="bottom right">Memo</li>
 				</ul>
+				<div input id="minimize-button" onmousedown="event.stopPropagation()" onclick="minimizeWindow()">&ndash;</div>
 				<div input id="opacity-control" onmousedown="event.stopPropagation()" onclick="changeOpacity()">T</div>
 				<div class="close-button" onmousedown="event.stopPropagation()" onclick="closeWindow()">X</div>
 			</div>

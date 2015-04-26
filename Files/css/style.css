@@ -191,7 +191,7 @@ tbody td {
 	font-weight:normal;
 }
 
-#opacity-control, .close-button {
+#opacity-control, #minimize-button, .close-button {
 	color:#DDD;
 	position:absolute;
 	top:1vw;
@@ -208,10 +208,18 @@ tbody td {
 
 #opacity-control { right:8vw; font-size:1.2vw; }
 
-.close-button:hover, #opacity-control:hover {
+#minimize-button { right:13vw; }
+
+.close-button:hover, #opacity-control:hover, #minimize-button:hover{
 	background-color:rgb(100, 44, 20);
 }
 
+#app-title { 
+	margin-left: 2vw;
+	color:#EEE !important;
+	font-size:2.8vw;
+	font-weight:normal !important;
+}
 
 /*=====================
 	ITEM SEARCH PAGE
