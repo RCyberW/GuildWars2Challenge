@@ -27,7 +27,7 @@
 </div>
 
 <div id="investment-saved-window">
-	<table id="saved-items">
+	<table id="investment-saved-items">
 		<tbody></tbody>
 	</table>
 </div>
@@ -56,7 +56,7 @@ $("#investment-searchButton").click(function() {
 	searchTerm = $("#investment-search-field-item").val();
 	openInvestmentSearchResults();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
-		$("#search-field-item").val('');
+		$("#investment-search-field-item").val('');
 		handleInvestmentItems(response);
 	});
 });
@@ -123,14 +123,14 @@ function createInvestmentMainListRow(item) {
 	var yield = (item.price.buys.unit_price - suggestedPrice) * amount;
 	var yieldPrice = GW2App.convertPriceToReadablePrice(yield);
 	
-	var newRow = "<tr id=" + item.id + ">" + 
+	var newRow = "<tr id=investment_" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td width='150px'>" + item.name + "</td>" + 
 			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
 			"<td class='buy-sell-box'>" + amount + "</td>" +
 			"<td class='buy-sell-box'>" + marketPrice + "</td>" + 
 			"<td class='buy-sell-box'>" + yield + "</td>" + 
-			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
+			"<td><div class='generic-button' onclick='removeRow(investment_" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#investment-saved-items tbody').append(newRow);
 	
