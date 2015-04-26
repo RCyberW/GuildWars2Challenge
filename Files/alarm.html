@@ -34,9 +34,16 @@
 		var h=today.getHours();
 		var m = today.getMinutes();
 		var s = today.getSeconds();
+		var median = ' am';
+		if(h > 12) {
+			h -= 12;
+			median = ' pm';
+		}
+		else if(h == 0)
+			h = 12;
 		m = checkTime(m);
 		s = checkTime(s);
-		$('#local-time p').html(h+":"+m+":"+s);
+		$('#local-time p').html(h+":"+m+":"+s + median);
 		var t = setTimeout(function(){localTime()},500);
 	}
 

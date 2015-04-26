@@ -102,7 +102,7 @@ tbody td {
 	background: url('../img/bg.png') no-repeat;
 	background-position:top right;
 	width:96vw;
-	height:99vw;
+	height:96vh;
 	border-radius:.75vw;
 	padding:1vw 2vw 1vw 1vw;
 }
@@ -110,7 +110,7 @@ tbody td {
 #main-content {
 	position:relative;
 	width:90.5vw;
-	height:88vw;
+	height:84vh;
 	background-color: rgba(145, 150, 150, .7);
 	padding:2vw;
 	border:5px solid rgb(47, 20, 9);
@@ -121,7 +121,7 @@ tbody td {
 .content-page {
 	display:none;
 	width:90.5vw;
-	height:88vw;
+	height:84vh;
 	overflow:hidden;
 }
 
@@ -154,7 +154,7 @@ tbody td {
 #top-bar {
 	cursor:pointer;
 	width:98vw;
-	height:4.5vw;
+	height:6vh;
 
 	-webkit-user-select: none; /* Chrome/Safari */        
 	-moz-user-select: none; /* Firefox */
@@ -172,7 +172,7 @@ tbody td {
 
 #top-bar ul li {
 	display:inline-block;
-	padding:1.25vw 2vw .75vw 2vw;
+	padding:1vw 2vw .75vw 2vw;
 	width:15vw;
 	background: linear-gradient(to top, rgb(100, 44, 20), rgb(120, 60, 25));
 	color:black;
@@ -181,21 +181,21 @@ tbody td {
 	text-overflow:ellipsis;
 	white-space: nowrap;
 	font-weight:bold;
-	border-radius:3px 3px 0 0;
+	border-radius:5px 5px 0 0;
 }
 
-.active-tab {
-	background: linear-gradient(to top, rgb(47, 20, 9), rgb(100, 44, 20)) !important;
-	color:#EEE !important;
+#top-bar ul .active-tab {
+	background: linear-gradient(to top, rgb(47, 20, 9), rgb(100, 44, 20));
+	color:#EEE;
 	font-size:2.8vw;
-	font-weight:normal !important;
+	font-weight:normal;
 }
 
 #opacity-control, .close-button {
 	color:#DDD;
 	position:absolute;
 	top:1vw;
-	right:1.5vw;
+	right:2.5vw;
 	width:4vw;
 	height:4vw;
 	border-radius:5px;
@@ -206,7 +206,7 @@ tbody td {
 	cursor:pointer;
 }
 
-#opacity-control { right:7vw; font-size:1.2vw; }
+#opacity-control { right:8vw; font-size:1.2vw; }
 
 .close-button:hover, #opacity-control:hover {
 	background-color:rgb(100, 44, 20);
@@ -221,7 +221,7 @@ tbody td {
 	display:none;
 	position:absolute;
 	width:67vw;
-	top:24vw;
+	top:16vh;
 	left:10.5vw;
 	border:5px solid rgb(47, 20, 9);
 	background-color:rgba(255, 255, 255, .8);
@@ -231,7 +231,7 @@ tbody td {
 
 #search-results {
 	width:67vw;
-	max-height:50vw;
+	max-height:54vh;
 	overflow:auto;
 }
 
@@ -285,7 +285,7 @@ tbody td {
 
 #saved-window {
 	margin:1vw auto 0 auto;
-	max-height:65vw;
+	max-height:57vh;
 	overflow-y:scroll;
 	padding:1vw;
 }
@@ -302,8 +302,13 @@ tbody td {
 	background-color:rgb(255,255,255);
 }
 
+#saved-items .name-box {
+	width:49vw;
+	text-align:left;
+}
+
 #saved-items .buy-sell-box {
-	width:50px;
+	width:5vw;
 	text-align:right;
 	line-height:15px;
 }
@@ -315,10 +320,10 @@ tbody td {
 }
 
 .item-icon {
-	width:30px;
-	height:30px;
+	width:3.5vw;
+	height:3.5vw;
 	vertical-align:middle;
-	border:3px double black;
+	border:.3vw solid black;
 }
 
 .Basic-border {

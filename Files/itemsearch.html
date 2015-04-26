@@ -1,5 +1,5 @@
 <div id="search-window">
-	<div class="close-button" onclick="Utility.closeSearchResults()">X</div>
+	<div class="close-button" onclick="Utility.closeSearchResults('search-window')">X</div>
 	<p class="message"></p>
 	<div id="search-results">
 		<table>
@@ -15,10 +15,10 @@
 <table id="saved-items-headers">
 	<thead>
 		<tr>
-			<th width='106px' style='background-color:rgb(192,192,192);'>Item</th>
-			<th width='20px'>Buy</th>
-			<th width='20px' style='background-color:rgb(192,192,192);'>Sell</th>
-			<th width='30px'></th>
+			<th style='width:435px; background-color:rgb(192,192,192);'>Item</th>
+			<th style='width:45px'>Buy</th>
+			<th style='width:45px; background-color:rgb(192,192,192);'>Sell</th>
+			<th style="width:67px"> </th>
 		</tr>
 	</thead>
 </table>
@@ -105,7 +105,7 @@ function createMainListRow(item) {
 	var soldPrice = GW2App.convertPriceToReadablePrice(item.price.sells.unit_price);
 	var newRow = "<tr id=" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
-			"<td width='150px'>" + item.name + "</td>" + 
+			"<td class='name-box'>" + item.name + "</td>" + 
 			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
 			"<td class='buy-sell-box'>" + soldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(" + item.id + ")'>X</div></td>" + 
