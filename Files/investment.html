@@ -1,5 +1,5 @@
 <div id="investment-search-window">
-	<div class="close-button" onclick="Utility.closeSearchResults('investment-search-window)">X</div>
+	<div class="close-button" onclick="Utility.closeSearchResults('investment-search-window')">X</div>
 	<p class="message"></p>
 	<div id="investment-search-results">
 		<table>
@@ -15,12 +15,12 @@
 <table id="investment-saved-items-headers">
 	<thead>
 		<tr>
-			<th width='106px' style='background-color:rgb(192,192,192);'>Item</th>
-			<th width='20px'>Bought</th>
-			<th width='20px'>Amount</th>
-			<th width='20px' style='background-color:rgb(192,192,192);'>Market Offer</th>
-			<th width='20px'>Gain</th>
-			<th width='30px'></th>
+			<th style='width:435px; background-color:white;'>Item</th>
+			<th style='width:45px; background-color:rgb(192,192,192);'>Bought</th>
+			<th style='width:45px; background-color:white;'>Amount</th>
+			<th style='width:45px; background-color:rgb(192,192,192);'>Market Offer</th>
+			<th style='width:45px; background-color:white;'>Gain</th>
+			<th style="width:67px; background-color:rgb(192,192,192);"> </th>
 		</tr>
 	</thead>
 </table>
@@ -54,6 +54,8 @@ $(document).ready(function() {
 // click the search button
 $("#investment-searchButton").click(function() {
 	searchTerm = $("#investment-search-field-item").val();
+	if(!searchTerm)
+		return;
 	openInvestmentSearchResults();
 	GW2App.getItemIDByName(searchTerm, "1", function(response) {
 		$("#investment-search-field-item").val('');
@@ -121,15 +123,15 @@ function createInvestmentMainListRow(item) {
 	var marketPrice = GW2App.convertPriceToReadablePrice(item.price.buys.unit_price);
 	// Total profit for the user
 	var yield = (item.price.buys.unit_price - suggestedPrice) * amount;
-	var yieldPrice = GW2App.convertPriceToReadablePrice(yield);
+	var yieldPrice = GW2App.convertPriceToReadablePrice(yield.toFixed(0));
 	
 	var newRow = "<tr id=investment_" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
-			"<td width='150px'>" + item.name + "</td>" + 
+			"<td class='name-box'>" + item.name + "</td>" + 
 			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
 			"<td class='buy-sell-box'>" + amount + "</td>" +
 			"<td class='buy-sell-box'>" + marketPrice + "</td>" + 
-			"<td class='buy-sell-box'>" + yield + "</td>" + 
+			"<td class='buy-sell-box'>" + yieldPrice + "</td>" + 
 			"<td><div class='generic-button' onclick='removeRow(investment_" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#investment-saved-items tbody').append(newRow);
