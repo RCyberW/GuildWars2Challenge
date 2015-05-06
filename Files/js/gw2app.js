@@ -138,7 +138,7 @@ GW2App = {
 	// - isGreaterThan the comparison uses >= or <=
 	createWatchItem : function(itemToWatchOutFor, amount, isGreaterThan) {
 		// Internally when we store this to the map, we can store the itemID for ease of access later
-		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor,amount,isGreaterThan);
+		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor, amount, isGreaterThan);
 		
 		var watchListItems = "";
 		
@@ -149,11 +149,31 @@ GW2App = {
 		this.saveToLocalStorage("WatchList", watchListItems);
 	},
 	
+	createInvestmentItem: function(itemToWatchOutFor, amount, buy) {
+		this.investmentList[itemToWatchOutFor] = new InvestmentItem(itemToWatchOutFor, amount, buy);
+		
+		var investmentListItems = "";
+		
+		$.each(this.investmentList, function(key, value) {
+			investmentListItems += key + ":" + value.amount + ":" + value.price + ",";
+		});
+		
+		this.saveToLocalStorage("InvestmentList", investmentListItems);
+	},
+	
 	// - specify the item that the user want to remove
 	removeWatchItem : function(itemToWatchOutFor) {
 		var removeIdx = GW2App.watchList.indexOf(itemToWatchOutFor);
 		if (removeIdx > -1) {
 			delete GW2App.watchList[removeIdx];
+		}
+	},
+	
+	// - specify the item that the user want to remove
+	removeInvestmentItem : function(itemToWatchOutFor) {
+		var removeIdx = GW2App.investmentList.indexOf(itemToWatchOutFor);
+		if (removeIdx > -1) {
+			delete GW2App.investmentList[removeIdx];
 		}
 	},
 
@@ -389,6 +409,15 @@ var WatchItem = function(itemToWatchOutFor, amount, isGreaterThan) {
 	this.itemToWatchOutFor = itemToWatchOutFor;
 	this.amount = amount;
 	this.isGreaterThan = isGreaterThan;
+};
+
+// - the item-id that the user want to keep track of
+// - the amount the user bought
+// - the price the user bought
+var InvestmentItem = function(itemToWatchOutFor, amount, price) {
+	this.itemToWatchOutFor = itemToWatchOutFor;
+	this.amount = amount;
+	this.price = price;
 };
 
 // - intervalAmount is how many minutes till countdown

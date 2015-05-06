@@ -41,14 +41,20 @@ $(document).ready(function() {
     // Display the loader logic
 	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList);
 	
-	GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
-		response.data.currentList.forEach(function(item) {
-			if (item != null) {
-				// Display and hide the search window
-				createInvestmentMainListRow(item);
-			}
+	// TODO break the list into an id list and a full list
+	
+	if (storedItemList != null) {
+		GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
+			response.data.currentList.forEach(function(item) {
+				if (item != null) {
+					var investedItem = storedItemList[item.id];
+				
+					// Display and hide the search window
+					createInvestmentMainListRow(item, investedItem.amount, investedItem.price);
+				}
+			});
 		});
-	});
+	}
 });
 
 // click the search button
@@ -83,7 +89,7 @@ function handleInvestmentItems(response) {
 			response.data.currentList.forEach(function(item) {
 				if (item != null) {
 					// Display and hide the search window
-					createInvestmentMainListRow(item);
+					createInvestmentMainListRow(item, 1, 1);
 				}
 			});
 		} else {
@@ -102,17 +108,16 @@ function handleInvestmentItems(response) {
 }
 
 // Create a new row using the selected properties
-function createInvestmentMainListRow(item) {
+// This will be how much the amount per unit bought
+// This will be how many unit the user bought
+function createInvestmentMainListRow(item, buy, amount) {
 	// TODO: Once the user finds the item he invested in, ask the user to input the amount he bought for and the number he bought
 	// Before he sees the result in the table, ask for the number of unit he bought and prices at which each unit costed
 	
-	// This will be how much the amount per unit bought
 	// User will input in the format of xx G yy S zz C
 	// We will translated this to xxyyzz format to compare with the API
-	var buy = 1; 
 	var buyPrice = GW2App.convertPriceToReadablePrice(buy);
-	// This will be how many unit the user bought
-	var amount = 1;
+
 	// What we suggest the user to sell the item at to break even
 	// (price sell at) >= buyPrice/0.85
 	// fee = suggestedPrice * 0.15
@@ -126,17 +131,17 @@ function createInvestmentMainListRow(item) {
 	var yieldPrice = GW2App.convertPriceToReadablePrice(yield.toFixed(0));
 	
 	var newRow = "<tr id=investment_" + item.id + ">" + 
-			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
-			"<td class='name-box'>" + item.name + "</td>" + 
-			"<td class='buy-sell-box'>" + buyPrice + "</td>" + 
-			"<td class='buy-sell-box'>" + amount + "</td>" +
-			"<td class='buy-sell-box'>" + marketPrice + "</td>" + 
-			"<td class='buy-sell-box'>" + yieldPrice + "</td>" + 
-			"<td><div class='generic-button' onclick='removeRow(investment_" + item.id + ")'>X</div></td>" + 
+			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border' style='width:35px;'></td>" + 
+			"<td class='name-box' style='width:400px;'>" + item.name + "</td>" + 
+			"<td class='buy-sell-box' style='width:45px;'>" + buyPrice + "</td>" + 
+			"<td class='buy-sell-box' style='width:45px;'>" + amount + "</td>" +
+			"<td class='buy-sell-box' style='width:45px;'>" + marketPrice + "</td>" + 
+			"<td class='buy-sell-box' style='width:45px;'>" + yieldPrice + "</td>" + 
+			"<td><div class='generic-button' onclick='removeRow(investment_" + item.id + ")' style='width:67px;'>X</div></td>" + 
 			"</tr>";
 	$('#investment-saved-items tbody').append(newRow);
 	
-	GW2App.createWatchItem(item.id, suggestedPrice, true);
+	GW2App.createInvestmentItem(item.id, amount, buy);
 	return newRow;
 }
 
@@ -152,7 +157,7 @@ function appendInvestmentRowToSearchResult(item) {
 	
 	$("#generic_btn_id_" + item.id).click(function() {
 		$(this).parent().parent().remove();
-		createInvestmentMainListRow(item);
+		createInvestmentMainListRow(item, 1, 1);
 	});
 }
 </script>
