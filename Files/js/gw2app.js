@@ -141,11 +141,9 @@ GW2App = {
 		this.watchList[itemToWatchOutFor] = new WatchItem(itemToWatchOutFor, amount, isGreaterThan);
 		
 		var watchListItems = "";
-		
 		$.each(this.watchList, function(key, value) {
 			watchListItems += key + ",";
 		});
-		
 		this.saveToLocalStorage("WatchList", watchListItems);
 	},
 	
@@ -153,11 +151,9 @@ GW2App = {
 		this.investmentList[itemToWatchOutFor] = new InvestmentItem(itemToWatchOutFor, amount, buy);
 		
 		var investmentListItems = "";
-		
 		$.each(this.investmentList, function(key, value) {
 			investmentListItems += key + ":" + value.amount + ":" + value.price + ",";
 		});
-		
 		this.saveToLocalStorage("InvestmentList", investmentListItems);
 	},
 	
@@ -167,6 +163,12 @@ GW2App = {
 		if (removeIdx > -1) {
 			delete GW2App.watchList[removeIdx];
 		}
+		
+		var watchListItems = "";
+		$.each(this.watchList, function(key, value) {
+			watchListItems += key + ",";
+		});
+		this.saveToLocalStorage("WatchList", watchListItems);
 	},
 	
 	// - specify the item that the user want to remove
@@ -175,6 +177,12 @@ GW2App = {
 		if (removeIdx > -1) {
 			delete GW2App.investmentList[removeIdx];
 		}
+		
+		var investmentListItems = "";
+		$.each(this.investmentList, function(key, value) {
+			investmentListItems += key + ":" + value.amount + ":" + value.price + ",";
+		});
+		this.saveToLocalStorage("InvestmentList", investmentListItems);
 	},
 
 	// - intervalAmount is how many minutes till countdown
@@ -217,9 +225,7 @@ GW2App = {
 	},
 	
 	// returns info and prices from the GW2 API for specified itemIds
-	getItemInfoAndPrices : function(itemIds, currentPage, lastPage, callback) {
-	// TODO need to find a way to re-load the watchList using this method
-	
+	getItemInfoAndPrices : function(itemIds, currentPage, lastPage, callback) {	
 		var self = GW2App;
 		self.getItemInfo(itemIds, function(infoResult) {
 			if (infoResult.success) { 

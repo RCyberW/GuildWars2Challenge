@@ -15,12 +15,12 @@
 <table id="investment-saved-items-headers">
 	<thead>
 		<tr>
-			<th style='width:435px; background-color:white;'>Item</th>
-			<th style='width:45px; background-color:rgb(192,192,192);'>Bought</th>
-			<th style='width:45px; background-color:white;'>Amount</th>
-			<th style='width:45px; background-color:rgb(192,192,192);'>Market Offer</th>
-			<th style='width:45px; background-color:white;'>Gain</th>
-			<th style="width:67px; background-color:rgb(192,192,192);"> </th>
+			<th style='width:440px; background-color:white;'>Item</th>
+			<th style='width:60px; background-color:rgb(192,192,192);'>Price</th>
+			<th style='width:60px; background-color:white;'>Count</th>
+			<th style='width:60px; background-color:rgb(192,192,192);'>TP Price</th>
+			<th style='width:60px; background-color:white;'>Gain</th>
+			<th style='width:60px; background-color:rgb(192,192,192);'> </th>
 		</tr>
 	</thead>
 </table>
@@ -45,14 +45,16 @@ $(document).ready(function() {
 	
 	if (storedItemList != null) {
 		GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
-			response.data.currentList.forEach(function(item) {
-				if (item != null) {
-					var investedItem = storedItemList[item.id];
-				
-					// Display and hide the search window
-					createInvestmentMainListRow(item, investedItem.amount, investedItem.price);
-				}
-			});
+			if (response.data != null) {
+				response.data.currentList.forEach(function(item) {
+					if (item != null) {
+						var investedItem = storedItemList[item.id];
+					
+						// Display and hide the search window
+						createInvestmentMainListRow(item, investedItem.amount, investedItem.price);
+					}
+				});
+			}
 		});
 	}
 });
@@ -132,12 +134,12 @@ function createInvestmentMainListRow(item, buy, amount) {
 	
 	var newRow = "<tr id=investment_" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border' style='width:35px;'></td>" + 
-			"<td class='name-box' style='width:400px;'>" + item.name + "</td>" + 
-			"<td class='buy-sell-box' style='width:45px;'>" + buyPrice + "</td>" + 
-			"<td class='buy-sell-box' style='width:45px;'>" + amount + "</td>" +
-			"<td class='buy-sell-box' style='width:45px;'>" + marketPrice + "</td>" + 
-			"<td class='buy-sell-box' style='width:45px;'>" + yieldPrice + "</td>" + 
-			"<td><div class='generic-button' onclick='removeRow(investment_" + item.id + ")' style='width:67px;'>X</div></td>" + 
+			"<td class='name-box'>" + item.name + "</td>" + 
+			"<td class='buy-sell-box' style='width:60px;'>" + buyPrice + "</td>" + 
+			"<td class='buy-sell-box' style='width:60px;'>" + amount + "</td>" +
+			"<td class='buy-sell-box' style='width:60px;'>" + marketPrice + "</td>" + 
+			"<td class='buy-sell-box' style='width:60px;'>" + yieldPrice + "</td>" + 
+			"<td style='width:40px;'><div class='generic-button' onclick='removeInvestmentRow(investment_" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#investment-saved-items tbody').append(newRow);
 	
@@ -159,5 +161,12 @@ function appendInvestmentRowToSearchResult(item) {
 		$(this).parent().parent().remove();
 		createInvestmentMainListRow(item, 1, 1);
 	});
+}
+
+function removeInvestmentRow(rowID) {
+	// Remove item from watchlist
+	$("#" + rowID).remove();
+	var fixRowID = rowID.replace("investment_", "");
+	GW2App.removeInvestmentItem(fixRowID);
 }
 </script>

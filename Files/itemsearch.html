@@ -40,12 +40,14 @@ $(document).ready(function() {
 	var storedItemList = GW2App.getFromLocalStorage("WatchList", storedItemList);
 	
 	GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
-		response.data.currentList.forEach(function(item) {
-			if (item != null) {
-				// Display and hide the search window
-				createMainListRow(item);
-			}
-		});
+		if (response.data != null) {
+			response.data.currentList.forEach(function(item) {
+				if (item != null) {
+					// Display and hide the search window
+					createMainListRow(item);
+				}
+			});
+		}
 	});
 });
 
@@ -101,8 +103,15 @@ function handleItems(response) {
 
 // Create a new row using the selected properties
 function createMainListRow(item) {
+	if (GW2App.watchList[item.id] != null) {
+		return ;
+	}
+	
 	var buyPrice = GW2App.convertPriceToReadablePrice(item.price.buys.unit_price);
 	var soldPrice = GW2App.convertPriceToReadablePrice(item.price.sells.unit_price);
+		
+	GW2App.createWatchItem(item.id, 0, true);
+	
 	var newRow = "<tr id=" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border''></td>" + 
 			"<td class='name-box'>" + item.name + "</td>" + 
@@ -112,7 +121,6 @@ function createMainListRow(item) {
 			"</tr>";
 	$('#saved-items tbody').append(newRow);
 	
-	GW2App.createWatchItem(item.id, 0, true);
 	return newRow;
 }
 
@@ -130,5 +138,11 @@ function appendRowToSearchResult(item) {
 		$(this).parent().parent().remove();
 		createMainListRow(item);
 	});
+}
+
+function removeRow(rowID) {
+	// Remove item from watchlist
+	$("#" + rowID).remove();
+	GW2App.removeWatchItem(rowID);
 }
 </script>
