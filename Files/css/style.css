@@ -154,7 +154,7 @@ tbody td {
 #top-bar {
 	cursor:pointer;
 	width:98vw;
-	height:6vh;
+	height:5vh;
 
 	-webkit-user-select: none; /* Chrome/Safari */        
 	-moz-user-select: none; /* Firefox */
@@ -172,7 +172,7 @@ tbody td {
 
 #top-bar ul li {
 	display:inline-block;
-	padding:1vw 2vw .75vw 2vw;
+	padding:0.75vw 2vw .75vw 2vw;
 	width:15vw;
 	background: linear-gradient(to top, rgb(100, 44, 20), rgb(120, 60, 25));
 	color:black;
@@ -195,11 +195,11 @@ tbody td {
 	color:#DDD;
 	position:absolute;
 	top:1vw;
-	right:2.5vw;
-	width:4vw;
-	height:4vw;
+	right:3vw;
+	width:3vw;
+	height:3vw;
 	border-radius:5px;
-	line-height:4vw;
+	line-height:3vw;
 	background-color:rgb(47, 20, 9);
 	text-align:center;
 	font-weight:bold;
@@ -242,6 +242,18 @@ tbody td {
 	max-height:54vh;
 	overflow:auto;
 }
+#investment-entry-window {
+	display:none;
+	position:absolute;
+	width:58vw;
+	top:18vh;
+	left:14.5vw;
+	border:5px solid rgb(47, 20, 9);
+	background-color:rgba(255, 255, 255, .8);
+	border-radius:15px;
+	padding:3vw;
+}
+
 
 #search-results table, #investment-search-results table {
 	width:65vw;
