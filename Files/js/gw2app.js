@@ -173,9 +173,14 @@ GW2App = {
 	
 	// - specify the item that the user want to remove
 	removeInvestmentItem : function(itemToWatchOutFor) {
-		var removeIdx = GW2App.investmentList.indexOf(itemToWatchOutFor);
-		if (removeIdx > -1) {
-			delete GW2App.investmentList[removeIdx];
+		console.log("item = " + itemToWatchOutFor);
+		//var removeIdx = GW2App.investmentList.indexOf(itemToWatchOutFor);
+		//if (removeIdx > -1) {
+		//	delete GW2App.investmentList[removeIdx];
+		//}
+		
+		if (itemToWatchOutFor in this.investmentList) {
+			delete this.investmentList[itemToWatchOutFor];
 		}
 		
 		var investmentListItems = "";
