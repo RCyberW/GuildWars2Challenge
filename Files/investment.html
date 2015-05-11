@@ -48,12 +48,24 @@
 
 $(document).ready(function() {  
     // Display the loader logic
-	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList);
+	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList).split(",");
 	
 	// TODO break the list into an id list and a full list
+	var storeItemMap = {};
 	
-	if (storedItemList != null) {
-		GW2App.getItemInfoAndPrices(storedItemList, "1", "1", function(response) {
+	var triplets;
+	var idList = "";
+	for (triplets in storedItemList) {
+		var parts = triplets.split(":");
+		storeItemMap[parts[0]] = new GW2App.InvestementItem(parts[0], parts[1], parts[2]);
+		if (idList.length > 0) {
+			idList += ",";
+		}
+		idList += parts[0];
+	}
+	
+	if (idList.length > 0) {
+		GW2App.getItemInfoAndPrices(idList, "1", "1", function(response) {
 			if (response.data != null) {
 				response.data.currentList.forEach(function(item) {
 					if (item != null) {
