@@ -2,13 +2,13 @@
 	"manifest_version":1,
 	"type":"WebApp",
 	"meta":{
-		"name":"Demo App",
-		"version":"1.1.1",
+		"name":"TP Watcher",
+		"version":"1.0.0",
 		"minimum-overwolf-version":"0.77.10",
 		"author":"Frank Chen, Douglas Choi, Ignatius Wong",
 		"icon":"IconMouseOver.png",
 		"icon_gray":"IconMouseNormal.png",
-		"description":"Demo App"
+		"description":"An app that helps Guild Wars 2 fan keep track of their trading post requests."
 	},
 	"data": {
 		"start_window":"MainWindow",
