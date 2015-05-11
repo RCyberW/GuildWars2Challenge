@@ -117,6 +117,7 @@ function handleInvestmentItems(response) {
 					// Display and hide the search window
 					$('#investment-entry-window').data(item);
 					$('#investment-entry-window').fadeIn(200);
+					$('#investment-search-window').hide();
 					// createInvestmentMainListRow(item, 1, 1);
 				}
 			});
@@ -166,7 +167,7 @@ function createInvestmentMainListRow(item, buy, amount) {
 			"<td class='buy-sell-box' style='width:60px;'>" + amount + "</td>" +
 			"<td class='buy-sell-box' style='width:60px;'>" + marketPrice + "</td>" + 
 			"<td class='buy-sell-box' style='width:60px;'>" + yieldPrice + "</td>" + 
-			"<td style='width:40px;'><div class='generic-button' onclick='removeInvestmentRow(investment_" + item.id + ")'>X</div></td>" + 
+			"<td style='width:40px;'><div class='generic-button' onclick='removeInvestmentRow(" + item.id + ")'>X</div></td>" + 
 			"</tr>";
 	$('#investment-saved-items tbody').append(newRow);
 	
@@ -190,6 +191,7 @@ function appendInvestmentRowToSearchResult(item) {
 		$('#buyField').val("");	
 		$('#investment-entry-window').data(item);
 		$('#investment-entry-window').fadeIn(200);
+		//$('#investment-search-window .message').html('');
 	});
 	
 }
@@ -210,8 +212,9 @@ $('#doneInvestmentButton').click(function() {
 
 function removeInvestmentRow(rowID) {
 	// Remove item from watchlist
-	$("#" + rowID).remove();
-	var fixRowID = rowID.replace("investment_", "");
-	GW2App.removeInvestmentItem(fixRowID);
+	console.log(rowID);
+	$("#investment_" + rowID).remove();
+	//var fixRowID = rowID.replace("investment_", "");
+	GW2App.removeInvestmentItem(rowID);
 }
 </script>
