@@ -12,7 +12,7 @@
 <div id="investment-entry-window">
 	<div class="close-button" onclick="Utility.closeSearchResults('investment-entry-window')">X</div>
 	<input type="text" id="amountField" placeholder="Enter amount"/>
-	<input type="text" id="buyField" placeholder="Price per unit"/>
+	<input type="text" id="buyField" placeholder="Coppers per unit"/>
 	<div class="generic-button" id="doneInvestmentButton">Done</div>
 </div>
 
@@ -59,7 +59,7 @@ $(document).ready(function() {
 		var triplets = storedItemList[i];
 		var parts = triplets.split(":");
 		if (parts.length == 3) {
-			storeItemMap[parts[0]] = new InvestmentItem(parts[0], parts[1], parts[2]);
+			storeItemMap[parts[0]] = new InvestmentItem(parts[0], parts[2], parts[1]);
 			if (idList.length > 0) {
 				idList += ",";
 			}
@@ -121,6 +121,7 @@ function handleInvestmentItems(response) {
 					// createInvestmentMainListRow(item, 1, 1);
 				}
 			});
+			// Utility.closeSearchResults('investment-search-window');
 		} else {
 			$('#investment-search-window .message').html('');
 			var pageCount = response.data.lastPage;
@@ -157,8 +158,8 @@ function createInvestmentMainListRow(item, buy, amount) {
 	// This will be how much the current market price is
 	var marketPrice = GW2App.convertPriceToReadablePrice(item.price.buys.unit_price);
 	// Total profit for the user
-	var yield = (item.price.buys.unit_price - suggestedPrice) * amount;
-	var yieldPrice = GW2App.convertPriceToReadablePrice(yield.toFixed(0));
+	var profit = (item.price.buys.unit_price - suggestedPrice) * amount;
+	var yieldPrice = GW2App.convertPriceToReadablePrice(profit.toFixed(0));
 	
 	var newRow = "<tr id=investment_" + item.id + ">" + 
 			"<td><img src='" + item.icon + "' class='item-icon " + item.rarity + "-border' style='width:35px;'></td>" + 

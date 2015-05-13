@@ -159,9 +159,8 @@ GW2App = {
 	
 	// - specify the item that the user want to remove
 	removeWatchItem : function(itemToWatchOutFor) {
-		var removeIdx = GW2App.watchList.indexOf(itemToWatchOutFor);
-		if (removeIdx > -1) {
-			delete GW2App.watchList[removeIdx];
+		if (itemToWatchOutFor in this.watchList) {
+			delete this.watchList[itemToWatchOutFor];
 		}
 		
 		var watchListItems = "";
@@ -173,12 +172,6 @@ GW2App = {
 	
 	// - specify the item that the user want to remove
 	removeInvestmentItem : function(itemToWatchOutFor) {
-		console.log("item = " + itemToWatchOutFor);
-		//var removeIdx = GW2App.investmentList.indexOf(itemToWatchOutFor);
-		//if (removeIdx > -1) {
-		//	delete GW2App.investmentList[removeIdx];
-		//}
-		
 		if (itemToWatchOutFor in this.investmentList) {
 			delete this.investmentList[itemToWatchOutFor];
 		}

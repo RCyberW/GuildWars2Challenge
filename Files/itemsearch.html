@@ -86,6 +86,7 @@ function handleItems(response) {
 					createMainListRow(item);
 				}
 			});
+			Utility.closeSearchResults('search-window');
 		} else {
 			$('#search-window .message').html('');
 			var pageCount = response.data.lastPage;
