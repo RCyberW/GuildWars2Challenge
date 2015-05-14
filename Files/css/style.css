@@ -331,10 +331,10 @@ tbody td {
 	width:45px;
 	text-align:right;
 	line-height:15px;
+	font-size:60%;
 }
 
 .coin-size {
-	margin-left:5px;
 	width:15px;
 	height:15px;
 }
