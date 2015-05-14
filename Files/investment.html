@@ -48,38 +48,38 @@
 
 $(document).ready(function() {  
     // Display the loader logic
-	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList).split(",");
-	
-	// TODO break the list into an id list and a full list
-	var storeItemMap = {};
-	
-	var triplets;
-	var idList = "";
-	for (var i = 0; i < storedItemList.length; i++) {
-		var triplets = storedItemList[i];
-		var parts = triplets.split(":");
-		if (parts.length == 3) {
-			storeItemMap[parts[0]] = new InvestmentItem(parts[0], parts[2], parts[1]);
-			if (idList.length > 0) {
-				idList += ",";
+	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList)
+	if (storedItemList != null) {
+		storeItemList = storeItemList.split(",");
+		var storeItemMap = {};
+		
+		var idList = "";
+		for (var i = 0; i < storedItemList.length; i++) {
+			var triplets = storedItemList[i];
+			var parts = triplets.split(":");
+			if (parts != null && parts.length == 3) {
+				storeItemMap[parts[0]] = new InvestmentItem(parts[0], parts[2], parts[1]);
+				if (idList.length > 0) {
+					idList += ",";
+				}
+				idList += parts[0];
 			}
-			idList += parts[0];
 		}
-	}
-	
-	if (idList.length > 0) {
-		GW2App.getItemInfoAndPrices(idList, "1", "1", function(response) {
-			if (response.data != null) {
-				response.data.currentList.forEach(function(item) {
-					if (item != null) {
-						var investedItem = storeItemMap[item.id];
-					
-						// Display and hide the search window
-						createInvestmentMainListRow(item, investedItem.amount, investedItem.price);
-					}
-				});
-			}
-		});
+		
+		if (idList.length > 0) {
+			GW2App.getItemInfoAndPrices(idList, "1", "1", function(response) {
+				if (response.data != null) {
+					response.data.currentList.forEach(function(item) {
+						if (item != null) {
+							var investedItem = storeItemMap[item.id];
+						
+							// Display and hide the search window
+							createInvestmentMainListRow(item, investedItem.amount, investedItem.price);
+						}
+					});
+				}
+			});
+		}
 	}
 });
 
@@ -101,6 +101,14 @@ function openInvestmentSearchResults() {
 	$('#investment-search-window').fadeIn(200);
 }
 
+function openInvestmentEntryWindow(item) {
+	$('#amountField').val("");
+	$('#buyField').val("");	
+
+	$('#investment-entry-window').data(item);
+	$('#investment-entry-window').fadeIn(200);
+}
+
 // Parse and handle item detail response
 function handleInvestmentItems(response) {
 	if (!response.success) { 
@@ -115,15 +123,12 @@ function handleInvestmentItems(response) {
 			response.data.currentList.forEach(function(item) {
 				if (item != null) {
 					// Display and hide the search window
-					$('#investment-entry-window').data(item);
-					$('#investment-entry-window').fadeIn(200);
-					$('#investment-search-window').hide();
+					openInvestmentEntryWindow(item);
+					Utility.closeSearchResults('investment-search-window');
 					// createInvestmentMainListRow(item, 1, 1);
 				}
 			});
-			// Utility.closeSearchResults('investment-search-window');
 		} else {
-			$('#investment-search-window .message').html('');
 			var pageCount = response.data.lastPage;
 			var currentPage = response.data.currentPage;
 			// Display all the results and ask the users to add them by clicking on "add" button
@@ -188,16 +193,12 @@ function appendInvestmentRowToSearchResult(item) {
 	
 	$("#generic_btn_id_" + item.id).click(function() {
 		$(this).parent().parent().remove();
-		$('#amountField').val("");
-		$('#buyField').val("");	
-		$('#investment-entry-window').data(item);
-		$('#investment-entry-window').fadeIn(200);
-		//$('#investment-search-window .message').html('');
+		openInvestmentEntryWindow(item)
 	});
 	
 }
 
-$('#investment-entry-window').hide();
+// $('#investment-entry-window').hide();
 
 $('#doneInvestmentButton').click(function() {
 	var item = $('#investment-entry-window').data();
