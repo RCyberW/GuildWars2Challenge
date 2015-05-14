@@ -50,7 +50,7 @@ $(document).ready(function() {
     // Display the loader logic
 	var storedItemList = GW2App.getFromLocalStorage("InvestmentList", storedItemList)
 	if (storedItemList != null) {
-		storeItemList = storeItemList.split(",");
+		storedItemList = storedItemList.split(",");
 		var storeItemMap = {};
 		
 		var idList = "";
