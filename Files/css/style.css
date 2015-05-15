@@ -101,6 +101,7 @@ tbody td {
 #wrapper {
 	background: url('../img/bg.png') no-repeat;
 	background-position:top right;
+	background-size:100vw 100vw;
 	width:96vw;
 	height:96vh;
 	border-radius:.75vw;
